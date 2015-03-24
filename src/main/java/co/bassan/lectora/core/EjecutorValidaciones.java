@@ -22,6 +22,7 @@ public class EjecutorValidaciones {
 
     private static EjecutorValidaciones intancia;
 
+
     /**
      * Metodo encargado de ejecutar las validaciones basicas de un archivo
      *
@@ -35,18 +36,18 @@ public class EjecutorValidaciones {
             for (ConfiguracionCampo configCampo : config.getConfigCampos()) {
 
                 if (config != null) {
-                    if (configCampo.isRequirido())
+                    if (configCampo.getValidaciones().isRequirido())
                         validarSiEsRequerido(configCampo.getValor(), i);
-                    if (configCampo.getLongitudMinima() != 0)
-                        validarLongitudMinima(configCampo.getLongitudMinima(), configCampo.getValor(), errores, i);
-                    if (configCampo.getLongitudMaxima() != 0)
-                        validarLongitudMaxima(configCampo.getLongitudMaxima(), configCampo.getValor(), errores, i);
-                    if (configCampo.getExprecion() != null)
-                        validarPatron(configCampo.getExprecion(), configCampo.getValor(), errores, i);
-                    if (configCampo.getListaLimitante() != null && configCampo.getListaLimitante().length>0)
-                        validarListaLimite(configCampo.getListaLimitante(), configCampo.getValor(), errores, i);
-                    if (configCampo.getFormatoFecha()!= null && !"".equals(configCampo.getFormatoFecha()))
-                        validarFormatoFecha(configCampo.getFormatoFecha(), configCampo.getValor(), errores, i);
+                    if (configCampo.getValidaciones().getLongitudMinima() != 0)
+                        validarLongitudMinima(configCampo.getValidaciones().getLongitudMinima(), configCampo.getValor(), errores, i);
+                    if (configCampo.getValidaciones().getLongitudMaxima() != 0)
+                        validarLongitudMaxima(configCampo.getValidaciones().getLongitudMaxima(), configCampo.getValor(), errores, i);
+                    if (configCampo.getValidaciones().getExprecion() != null)
+                        validarPatron(configCampo.getValidaciones().getExprecion(), configCampo.getValor(), errores, i);
+                    if (configCampo.getValidaciones().getListaLimitante() != null && configCampo.getValidaciones().getListaLimitante().length > 0)
+                        validarListaLimite(configCampo.getValidaciones().getListaLimitante(), configCampo.getValor(), errores, i);
+                    if (configCampo.getValidaciones().getFormatoFecha() != null && !"".equals(configCampo.getValidaciones().getFormatoFecha()))
+                        validarFormatoFecha(configCampo.getValidaciones().getFormatoFecha(), configCampo.getValor(), errores, i);
                 }
                 i++;
             }

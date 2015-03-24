@@ -12,19 +12,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface DatosArchivo {
 
-    /**
-     * Name describing the record (optional)
-     */
+
     String nombre() default "";
-
-    /**
-     * Separator used to split a record in tokens (mandatory)
-     */
     String separador();
-
-    /**
-     * The skipFirstLine parameter will allow to skip or not the first line of a
-     * CSV file. This line often contains columns definition
-     */
     boolean saltarPrimeraLinea() default false;
+
+    boolean multiEstructura() default false;
 }

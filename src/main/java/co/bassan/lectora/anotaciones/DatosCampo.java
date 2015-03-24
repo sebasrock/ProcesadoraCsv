@@ -14,21 +14,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface DatosCampo {
 
-    /**
-     * Indicates if the value should be trimmed
-     */
     boolean trim() default false;
-
-    /**
-     * Name of the field (optional)
-     */
     String nombre() default "";
-
-    /**
-     * Position of the field in the message generated (should start from 1)
-     */
     int posicion() default 0;
-
-
     Class<? extends ConvertidorInterfaz> convercionClass() default ConvertidorInterfaz.class;
+
 }

@@ -1,5 +1,6 @@
 package co.bassan.lectora.model;
 
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,8 +13,17 @@ public class ConfiguracionCarga implements Serializable {
     private String separador;
     private boolean saltarPrimeraLinea;
     private int cantidadCampos;
+    private boolean EsMultiEstructura;
     private List<ConfiguracionCampo> configCampos;
 
+
+    public boolean isEsMultiEstructura() {
+        return EsMultiEstructura;
+    }
+
+    public void setEsMultiEstructura(boolean esMultiEstructura) {
+        EsMultiEstructura = esMultiEstructura;
+    }
 
     public String getNombreArchivo() {
         return nombreArchivo;

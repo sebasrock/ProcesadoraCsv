@@ -1,15 +1,42 @@
 package co.bassan.lectora.model;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 /**
  * Created by Sebastian Sanchez on 09/02/2015.
  */
-public enum Types {
+public enum TypesEnum {
 
 
     INT {
         @Override
         public Object parse(String s) throws Exception {
             return Integer.parseInt(s);
+        }
+    },
+    STRING {
+        @Override
+        public Object parse(String s) throws Exception {
+            return s;
+        }
+    },
+    INTEGER {
+        @Override
+        public Object parse(String s) throws Exception {
+            return Integer.parseInt(s);
+        }
+    },
+    BIGINTEGER {
+        @Override
+        public Object parse(String s) throws Exception {
+            return BigInteger.valueOf(Long.parseLong(s));
+        }
+    },
+    BIGDECIMAL {
+        @Override
+        public Object parse(String s) throws Exception {
+            return BigDecimal.valueOf(Long.parseLong(s));
         }
     },
     FLOAT {

@@ -1,9 +1,9 @@
 package co.bassan.lectora.conceptos;
 
 import co.bassan.lectora.core.ProcesadorCsv;
+import co.bassan.lectora.model.ResultadoCargue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Created by Sebastian Sanchez on 06/02/2015.
@@ -12,44 +12,46 @@ public class SplitterExample {
 
     public static void main(String[] args) {
         //Input file which needs to be parsed
-        String fileToParse = "C:\\Users\\985202\\Documents\\LectoraCsv\\inbox\\csv\\student.txt";
+        String fileToParse = "/home/sebas/Documentos/Proyectos/procesador_csv/procesador_csv/inbox/csv/MultiEstructura";
         String fileToParse2 = "C:\\Users\\985202\\Documents\\LectoraCsv\\inbox\\csv\\student3.txt";
 //        String fileToParse = "D:\\Proyectos\\LectoraCsv\\inbox\\csv\\student2.txt";
 
 
-        Student student = new Student();
-        student.setCodigo("1");
-        student.setName("dfssssssss");
-        student.setSemester("dfdsfsd");
-        Student student2 = new Student();
-        student2.setCodigo("1werrrrrr");
-        student2.setName("dfssssssswreeeeeeeeeeeeees");
-        student2.setSemester("dfdsfsdwerrrrrrrrrrrrrrrr");
-        List<Student> lista = new ArrayList<Student>();
-        lista.add(student);
-        lista.add(student2);
-        ProcesadorCsv<Student> csv = new ProcesadorCsv<Student>();
-        try {
-            csv.transformarObjetoCsv(lista,fileToParse2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Student student = new Student();
+//        student.setCodigo("1");
+//        student.setName("dfssssssss");
+//        student.setSemester("dfdsfsd");
+//        Student student2 = new Student();
+//        student2.setCodigo("1werrrrrr");
+//        student2.setName("dfssssssswreeeeeeeeeeeeees");
+//        student2.setSemester("dfdsfsdwerrrrrrrrrrrrrrrr");
+//        List<Student> lista = new ArrayList<Student>();
+//        lista.add(student);
+//        lista.add(student2);
+        ProcesadorCsv<Estructura1> csv = new ProcesadorCsv<Estructura1>();
 //        try {
-//            ResultadoCargue resultadoCargue = csv.transformarCsvObjeto(Student.class, fileToParse);
-//
-//
-//            for (Object student : resultadoCargue.getElementosCargados()) {
-//                System.out.println(student.toString());
-//            }
-//            System.out.println("_______________________________________________________________________");
-//            for (Object errores : resultadoCargue.getErroresEcontrados()) {
-//                System.out.println(errores.toString());
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
+//            csv.transformarObjetoCsv(lista,fileToParse2);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        try {
+
+            ResultadoCargue resultadoCargue = csv.transformarCsvObjeto(Estructura1.class, fileToParse);
+
+
+            for (Object student : resultadoCargue.getElementosCargados()) {
+                System.out.println(student.toString());
+            }
+            System.out.println("_______________________________________________________________________");
+            for (Object errores : resultadoCargue.getErroresEcontrados()) {
+                System.out.println(errores.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 //        //Delimiter used in CSV file
 //        final String DELIMITER = "|";
@@ -68,6 +70,8 @@ public class SplitterExample {
 ////                {
 ////                    //Print all tokens
 ////                    System.out.println(token);
+
+
 ////                }
 //
 //                if(line.indexOf("|")==0){

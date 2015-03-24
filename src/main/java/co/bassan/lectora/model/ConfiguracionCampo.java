@@ -11,16 +11,37 @@ public class ConfiguracionCampo {
     private String nombreCampoArchivo;
     private int posicion;
     private Class<?> tipoDato;
+    private Class<?> tipoDatoGenerico;
     private String valor;
     private Class<? extends ConvertidorInterfaz> convercionClass;
+    private String palabraReservada;
+    private boolean esOneToOne;
+    private boolean esOneToMany;
 
-    private String exprecion;
-    private int longitudMaxima;
-    private int longitudMinima;
-    private boolean requirido;
-    private String[] listaLimitante;
-    private String formatoFecha;
+    private ConfiguracionValidaciones validaciones;
 
+    public ConfiguracionCampo(String palabraReservada) {
+        this.palabraReservada = palabraReservada;
+    }
+
+    public ConfiguracionCampo() {
+    }
+
+    public boolean isEsOneToOne() {
+        return esOneToOne;
+    }
+
+    public void setEsOneToOne(boolean esOneToOne) {
+        this.esOneToOne = esOneToOne;
+    }
+
+    public boolean isEsOneToMany() {
+        return esOneToMany;
+    }
+
+    public void setEsOneToMany(boolean esOneToMany) {
+        this.esOneToMany = esOneToMany;
+    }
 
     public boolean isTrim() {
         return trim;
@@ -38,46 +59,6 @@ public class ConfiguracionCampo {
         this.nombreCampo = nombreCampo;
     }
 
-    public int getPosicion() {
-        return posicion;
-    }
-
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
-    }
-
-    public String getExprecion() {
-        return exprecion;
-    }
-
-    public void setExprecion(String exprecion) {
-        this.exprecion = exprecion;
-    }
-
-    public int getLongitudMaxima() {
-        return longitudMaxima;
-    }
-
-    public void setLongitudMaxima(int longitudMaxima) {
-        this.longitudMaxima = longitudMaxima;
-    }
-
-    public int getLongitudMinima() {
-        return longitudMinima;
-    }
-
-    public void setLongitudMinima(int longitudMinima) {
-        this.longitudMinima = longitudMinima;
-    }
-
-    public boolean isRequirido() {
-        return requirido;
-    }
-
-    public void setRequirido(boolean requirido) {
-        this.requirido = requirido;
-    }
-
     public String getNombreCampoArchivo() {
         return nombreCampoArchivo;
     }
@@ -86,8 +67,20 @@ public class ConfiguracionCampo {
         this.nombreCampoArchivo = nombreCampoArchivo;
     }
 
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
     public Class<?> getTipoDato() {
         return tipoDato;
+    }
+
+    public void setTipoDato(Class<?> tipoDato) {
+        this.tipoDato = tipoDato;
     }
 
     public String getValor() {
@@ -98,18 +91,6 @@ public class ConfiguracionCampo {
         this.valor = valor;
     }
 
-    public void setTipoDato(Class<?> tipoDato) {
-        this.tipoDato = tipoDato;
-    }
-
-    public String[] getListaLimitante() {
-        return listaLimitante;
-    }
-
-    public void setListaLimitante(String[] listaLimitante) {
-        this.listaLimitante = listaLimitante;
-    }
-
     public Class<? extends ConvertidorInterfaz> getConvercionClass() {
         return convercionClass;
     }
@@ -118,12 +99,28 @@ public class ConfiguracionCampo {
         this.convercionClass = convercionClass;
     }
 
-    public String getFormatoFecha() {
-        return formatoFecha;
+    public String getPalabraReservada() {
+        return palabraReservada;
     }
 
-    public void setFormatoFecha(String formatoFecha) {
-        this.formatoFecha = formatoFecha;
+    public void setPalabraReservada(String palabraReservada) {
+        this.palabraReservada = palabraReservada;
+    }
+
+    public ConfiguracionValidaciones getValidaciones() {
+        return validaciones;
+    }
+
+    public void setValidaciones(ConfiguracionValidaciones validaciones) {
+        this.validaciones = validaciones;
+    }
+
+    public Class<?> getTipoDatoGenerico() {
+        return tipoDatoGenerico;
+    }
+
+    public void setTipoDatoGenerico(Class<?> tipoDatoGenerico) {
+        this.tipoDatoGenerico = tipoDatoGenerico;
     }
 
     public String getSetNombreCampo() {

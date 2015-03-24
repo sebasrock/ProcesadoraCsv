@@ -1,13 +1,13 @@
 
 package co.bassan.lectora.core;
 
+import co.bassan.lectora.anotaciones.*;
 import co.bassan.lectora.model.ConfiguracionCampo;
 import co.bassan.lectora.model.ConfiguracionCarga;
-import co.bassan.lectora.anotaciones.DatosArchivo;
-import co.bassan.lectora.anotaciones.DatosCampo;
-import co.bassan.lectora.anotaciones.ValidarCampo;
+import co.bassan.lectora.model.ConfiguracionValidaciones;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +24,17 @@ public class LecturaPojo {
         this.pojoClass = pojoClass;
     }
 
-    public ConfiguracionCarga obtenerConfiguracion() {
-        configuracion = leerAnotacionDatosArchivo();
+    public ConfiguracionCarga obtenerConfiguracion(boolean obligatoridad) {
+        configuracion = leerAnotacionDatosArchivo(obligatoridad);
         configuracion.setConfigCampos(obtenerConfCampo());
         return configuracion;
     }
 
+
     private List<ConfiguracionCampo> obtenerConfCampo() {
-        List<ConfiguracionCampo> listaConf = new ArrayList<ConfiguracionCampo>();
 
         Field[] fields = pojoClass.getDeclaredFields();
+        List<ConfiguracionCampo> listaConf = new ArrayList<ConfiguracionCampo>(fields.length);
 
         if (fields == null) {
             return null;
@@ -43,30 +44,60 @@ public class LecturaPojo {
             ConfiguracionCampo configuracionCampo = new ConfiguracionCampo();
             leerAnotacionDatosCampo(field, configuracionCampo);
             leerAnotacionValidarCampo(field, configuracionCampo);
+            leerAnotacionOneToOne(field, configuracionCampo);
+            leerAnotacionOneToMany(field, configuracionCampo);
             listaConf.add(configuracionCampo);
         }
         return listaConf;
     }
 
-    public ConfiguracionCarga leerAnotacionDatosArchivo() {
+    private void leerAnotacionOneToOne(Field field, ConfiguracionCampo configuracionCampo) {
+        OneToOne datos = field.getAnnotation(OneToOne.class);
+        if (datos != null) {
+            configuracionCampo.setEsOneToOne(Boolean.TRUE);
+            configuracionCampo.setEsOneToMany(Boolean.FALSE);
+            configuracionCampo.setNombreCampo(field.getName());
+            configuracionCampo.setTipoDato(field.getType());
+        }
+    }
+
+    private void leerAnotacionOneToMany(Field field, ConfiguracionCampo configuracionCampo) {
+        OneToMany datos = field.getAnnotation(OneToMany.class);
+        if (datos != null) {
+            configuracionCampo.setEsOneToOne(Boolean.FALSE);
+            configuracionCampo.setEsOneToMany(Boolean.TRUE);
+            configuracionCampo.setPalabraReservada(datos.palabraResevada());
+            configuracionCampo.setNombreCampo(field.getName());
+            ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
+            configuracionCampo.setTipoDato(field.getType());
+            configuracionCampo.setTipoDatoGenerico((Class<?>) stringListType.getActualTypeArguments()[0]);
+
+        }
+    }
+
+    public ConfiguracionCarga leerAnotacionDatosArchivo(boolean obligatoridad) {
         ConfiguracionCarga configuracionCarga = new ConfiguracionCarga();
         DatosArchivo datosArchivo = (DatosArchivo) pojoClass.getAnnotation(DatosArchivo.class);
 
+
+        if (datosArchivo == null && obligatoridad) {
+            throw new IllegalArgumentException("No tiene la anotacion del DatosArchivo");
+        }
         if (datosArchivo != null) {
             configuracionCarga.setNombreArchivo(datosArchivo.nombre());
             configuracionCarga.setSaltarPrimeraLinea(datosArchivo.saltarPrimeraLinea());
             configuracionCarga.setSeparador(datosArchivo.separador());
-
+            configuracionCarga.setEsMultiEstructura(datosArchivo.multiEstructura());
         }
         return configuracionCarga;
     }
 
     public void leerAnotacionDatosCampo(Field field, ConfiguracionCampo configuracionCampo) {
-        DatosCampo datos = (DatosCampo) field.getAnnotation(DatosCampo.class);
+        DatosCampo datos = field.getAnnotation(DatosCampo.class);
         if (datos != null) {
             configuracionCampo.setNombreCampo(field.getName());
             configuracionCampo.setTipoDato(field.getType());
-            configuracionCampo.setNombreCampoArchivo(datos.nombre());
+            configuracionCampo.setNombreCampoArchivo((datos.nombre() != null) ? datos.nombre() : "");
             configuracionCampo.setPosicion(datos.posicion());
             configuracionCampo.setTrim(datos.trim());
             configuracionCampo.setConvercionClass(datos.convercionClass());
@@ -74,15 +105,16 @@ public class LecturaPojo {
     }
 
     public void leerAnotacionValidarCampo(Field field, ConfiguracionCampo configuracionCampo) {
-        ValidarCampo validarCampo = (ValidarCampo) field.getAnnotation(ValidarCampo.class);
+        ValidarCampo validarCampo = field.getAnnotation(ValidarCampo.class);
 
         if (validarCampo != null) {
-            configuracionCampo.setExprecion(validarCampo.exprecion());
-            configuracionCampo.setLongitudMaxima(validarCampo.longitudMaxima());
-            configuracionCampo.setLongitudMinima(validarCampo.longitudMinima());
-            configuracionCampo.setRequirido(validarCampo.requirido());
-            configuracionCampo.setListaLimitante(validarCampo.listaLimitante());
-            configuracionCampo.setFormatoFecha(validarCampo.fromatoFecha());
+            configuracionCampo.setValidaciones(new ConfiguracionValidaciones());
+            configuracionCampo.getValidaciones().setExprecion(validarCampo.exprecion());
+            configuracionCampo.getValidaciones().setLongitudMaxima(validarCampo.longitudMaxima());
+            configuracionCampo.getValidaciones().setLongitudMinima(validarCampo.longitudMinima());
+            configuracionCampo.getValidaciones().setRequirido(validarCampo.requirido());
+            configuracionCampo.getValidaciones().setListaLimitante(validarCampo.listaLimitante());
+            configuracionCampo.getValidaciones().setFormatoFecha(validarCampo.fromatoFecha());
         }
     }
 
