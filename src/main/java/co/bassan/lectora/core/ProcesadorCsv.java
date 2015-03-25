@@ -50,18 +50,22 @@ public class ProcesadorCsv<T> {
     private void prepararAlamacenamientoObjeto(BufferedReader fileReader, ConfiguracionCarga config, List<T> lista, Class<T> pojo, String palabraIndiceAnterior) throws Exception {
         String line;
         String palabraIndiceNueva = null;
-        if (palabraIndiceAnterior == null || palabraIndiceAnterior.equals(palabraIndiceNueva)) {
-            if ((line = fileReader.readLine()) != null) {
-                line = UtilProcesador.prepararLinea(line, config.getSeparador());
-                String[] campos = UtilProcesador.separacionLinea(line, config.getSeparador());
-                if (config.isEsMultiEstructura() && campos.length > 0) {
-                    palabraIndiceNueva = campos[0];
-                    campos = Arrays.copyOfRange(campos, 1, campos.length);
+
+        if ((line = fileReader.readLine()) != null) {
+            line = UtilProcesador.prepararLinea(line, config.getSeparador());
+            String[] campos = UtilProcesador.separacionLinea(line, config.getSeparador());
+            if (config.isEsMultiEstructura() && campos.length > 0) {
+                palabraIndiceNueva = campos[0];
+                campos = Arrays.copyOfRange(campos, 1, campos.length);
+                if (palabraIndiceAnterior != null && !palabraIndiceAnterior.equals(palabraIndiceNueva)) {
+//                        fileReader.reset();
+                    return;
                 }
-                T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), pojo, fileReader);
-                lista.add(pojoRespuesta);
-                prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva);
+
             }
+            T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), pojo, fileReader);
+            lista.add(pojoRespuesta);
+            prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva);
         }
     }
 
