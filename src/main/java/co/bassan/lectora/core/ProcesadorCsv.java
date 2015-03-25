@@ -69,6 +69,7 @@ public class ProcesadorCsv<T> {
         }
     }
 
+
     private T almacenamientoObjeto(String[] campos, List<ConfiguracionCampo> configCampos, Class<T> pojo, BufferedReader fileReader) throws Exception {
         T objeto = pojo.newInstance();
         List<ConfiguracionCampo> listFielsOneToMany = new ArrayList<ConfiguracionCampo>();
