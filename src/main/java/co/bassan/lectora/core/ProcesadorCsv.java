@@ -20,6 +20,7 @@ public class ProcesadorCsv<T> {
 
 
     private List<ErrorCampo> listaErrores;
+    private String lineContinuacion;
 
     public ResultadoCargue<T> transformarCsvObjeto(Class<T> pojo, String rutaCsv) throws Exception {
         BufferedReader fileReader = null;
@@ -41,8 +42,10 @@ public class ProcesadorCsv<T> {
     private List<T> preparacionLecuraConfiguraciones(BufferedReader fileReader, Class<T> pojo) throws Exception {
         List<T> lista = new ArrayList<T>();
         ConfiguracionCarga config = obtenerConfiguracion(pojo, Boolean.TRUE);
-        if (config.isSaltarPrimeraLinea())
+        if (config.isSaltarPrimeraLinea()) {
             fileReader.readLine();
+
+        }
         prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, null, null);
         return lista;
     }
@@ -54,18 +57,37 @@ public class ProcesadorCsv<T> {
 
         if (line == null && (line = fileReader.readLine()) != null) {
             line = UtilProcesador.prepararLinea(line, config.getSeparador());
+            System.out.print(line + "\n");
             campos = UtilProcesador.separacionLinea(line, config.getSeparador());
             if (config.isEsMultiEstructura() && campos.length > 0) {
+                System.out.print("SI MULTI\n");
                 palabraIndiceNueva = campos[0];
                 campos = Arrays.copyOfRange(campos, 1, campos.length);
                 if (palabraIndiceAnterior != null && !palabraIndiceAnterior.equals(palabraIndiceNueva)) {
+                    System.out.print("UN NUEVO OBJETO\n");
                     return line;
+                }
+            } else {
+                System.out.print("NO MULTI\n");
+            }
+        } else {
+            if (line != null) {
+
+                line = UtilProcesador.prepararLinea(line, config.getSeparador());
+                System.out.print(line + "\n");
+                campos = UtilProcesador.separacionLinea(line, config.getSeparador());
+                if (config.isEsMultiEstructura() && campos.length > 0) {
+                    System.out.print("SI MULTI\n");
+                    palabraIndiceNueva = campos[0];
+                    campos = Arrays.copyOfRange(campos, 1, campos.length);
                 }
             }
         }
-        T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), pojo, fileReader);
-        lista.add(pojoRespuesta);
-        line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, null);
+        if(campos!=null && campos.length>0) {
+            T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), pojo, fileReader);
+            lista.add(pojoRespuesta);
+            line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion);
+        }
 
         return line;
     }
@@ -78,7 +100,7 @@ public class ProcesadorCsv<T> {
         for (ConfiguracionCampo configCampo : configCampos) {
             if (configCampo.isEsOneToMany()) {
                 Method lMethod = obtenerMetodoSet(objeto, configCampo);
-                setearValorMetodo(lMethod, UtilProcesador.createListOfType(configCampo.getTipoDatoGenerico()), configCampo, objeto);
+                setearValorMetodo(lMethod, UtilProcesador.createListOfType(configCampo.getTipoDatoGenerico()), objeto);
                 listFielsOneToMany.add(configCampo);
             } else if (configCampo.isEsOneToOne()) {
                 almacenamientoObjetoOneToOne(campos, objeto, configCampo, fileReader);
@@ -90,6 +112,7 @@ public class ProcesadorCsv<T> {
         }
 
         String line = procesamientoMultiEstructura(listFielsOneToMany, objeto, fileReader);
+        lineContinuacion = line;
         return objeto;
     }
 
@@ -103,7 +126,7 @@ public class ProcesadorCsv<T> {
             ConfiguracionCarga config = obtenerConfiguracion((Class<T>) objetoAdd, Boolean.TRUE);
             line = prepararAlamacenamientoObjeto(fileReader, config, lista, (Class<T>) objetoAdd, null, line);
 
-            ((List) metodoList).add(lista);
+            ((List) metodoList).addAll(lista);
         }
         if (line != null) {
             return line;
@@ -125,10 +148,10 @@ public class ProcesadorCsv<T> {
         ConfiguracionCarga configuracionCargaOne = obtenerConfiguracion((Class<T>) objetoOne, Boolean.FALSE);
         objetoOne = almacenamientoObjeto(campos, configuracionCargaOne.getConfigCampos(), (Class<T>) objetoOne, fileReader);
         Method lMethod = obtenerMetodoSet(objeto, configCampo);
-        setearValorMetodo(lMethod, objetoOne, configCampo, objeto);
+        setearValorMetodo(lMethod, objetoOne, objeto);
     }
 
-    private void setearValorMetodo(Method lMethod, Object valor, ConfiguracionCampo configCampo, T objeto) throws Exception {
+    private void setearValorMetodo(Method lMethod, Object valor, T objeto) throws Exception {
         lMethod.invoke(objeto, valor);
     }
 

@@ -12,7 +12,7 @@ public class SplitterExample {
 
     public static void main(String[] args) {
         //Input file which needs to be parsed
-        String fileToParse = "/home/sebas/Documentos/Proyectos/procesador_csv/procesador_csv/inbox/csv/MultiEstructura";
+        String fileToParse = "/home/sebas/Documentos/Proyectos/PROCESADORCSV/WS/procesador_csv/inbox/csv/MultiEstructura";
         String fileToParse2 = "C:\\Users\\985202\\Documents\\LectoraCsv\\inbox\\csv\\student3.txt";
 //        String fileToParse = "D:\\Proyectos\\LectoraCsv\\inbox\\csv\\student2.txt";
 
@@ -41,9 +41,9 @@ public class SplitterExample {
 
             for (Object student : resultadoCargue.getElementosCargados()) {
                 System.out.println(student.toString());
-//                for (Estructura3 s : ((Estructura1)student).getEstructura3()) {
-//                    System.out.println(s.toString());
-//                }
+                for (Estructura3 s : ((Estructura1)student).getEstructura3()) {
+                    System.out.println(s.toString());
+                }
             }
             System.out.println("_______________________________________________________________________");
 //            for (Object errores : resultadoCargue.getErroresEcontrados()) {
