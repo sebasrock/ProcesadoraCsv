@@ -43,30 +43,31 @@ public class ProcesadorCsv<T> {
         ConfiguracionCarga config = obtenerConfiguracion(pojo, Boolean.TRUE);
         if (config.isSaltarPrimeraLinea())
             fileReader.readLine();
-        prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, null);
+        prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, null, null);
         return lista;
     }
 
-    private void prepararAlamacenamientoObjeto(BufferedReader fileReader, ConfiguracionCarga config, List<T> lista, Class<T> pojo, String palabraIndiceAnterior) throws Exception {
-        String line;
+    private String prepararAlamacenamientoObjeto(BufferedReader fileReader, ConfiguracionCarga config, List<T> lista, Class<T> pojo, String palabraIndiceAnterior, String lineAnterior) throws Exception {
+        String line = lineAnterior;
         String palabraIndiceNueva = null;
+        String[] campos = new String[0];
 
-        if ((line = fileReader.readLine()) != null) {
+        if (line == null && (line = fileReader.readLine()) != null) {
             line = UtilProcesador.prepararLinea(line, config.getSeparador());
-            String[] campos = UtilProcesador.separacionLinea(line, config.getSeparador());
+            campos = UtilProcesador.separacionLinea(line, config.getSeparador());
             if (config.isEsMultiEstructura() && campos.length > 0) {
                 palabraIndiceNueva = campos[0];
                 campos = Arrays.copyOfRange(campos, 1, campos.length);
                 if (palabraIndiceAnterior != null && !palabraIndiceAnterior.equals(palabraIndiceNueva)) {
-//                        fileReader.reset();
-                    return;
+                    return line;
                 }
-
             }
-            T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), pojo, fileReader);
-            lista.add(pojoRespuesta);
-            prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva);
         }
+        T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), pojo, fileReader);
+        lista.add(pojoRespuesta);
+        line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, null);
+
+        return line;
     }
 
 
@@ -88,21 +89,26 @@ public class ProcesadorCsv<T> {
 
         }
 
-        procesamientoMultiEstructura(listFielsOneToMany, objeto, fileReader);
+        String line = procesamientoMultiEstructura(listFielsOneToMany, objeto, fileReader);
         return objeto;
     }
 
-    private void procesamientoMultiEstructura(List<ConfiguracionCampo> mapaFielsOneToMany, T objeto, BufferedReader fileReader) throws Exception {
+    private String procesamientoMultiEstructura(List<ConfiguracionCampo> mapaFielsOneToMany, T objeto, BufferedReader fileReader) throws Exception {
+        String line = null;
         for (ConfiguracionCampo campo : mapaFielsOneToMany) {
             Method method = obtenerMetodoGet(objeto, campo);
             Object metodoList = method.invoke(objeto, null);
             List<T> lista = new ArrayList<T>();
             T objetoAdd = (T) campo.getTipoDatoGenerico();
             ConfiguracionCarga config = obtenerConfiguracion((Class<T>) objetoAdd, Boolean.TRUE);
-            prepararAlamacenamientoObjeto(fileReader, config, lista, (Class<T>) objetoAdd, null);
+            line = prepararAlamacenamientoObjeto(fileReader, config, lista, (Class<T>) objetoAdd, null, line);
 
             ((List) metodoList).add(lista);
         }
+        if (line != null) {
+            return line;
+        } else
+            return null;
     }
 
     private Method obtenerMetodoGet(T objeto, ConfiguracionCampo configuracionCampo) throws NoSuchMethodException {

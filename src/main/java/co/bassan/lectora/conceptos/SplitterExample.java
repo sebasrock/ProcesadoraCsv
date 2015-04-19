@@ -41,11 +41,14 @@ public class SplitterExample {
 
             for (Object student : resultadoCargue.getElementosCargados()) {
                 System.out.println(student.toString());
+//                for (Estructura3 s : ((Estructura1)student).getEstructura3()) {
+//                    System.out.println(s.toString());
+//                }
             }
             System.out.println("_______________________________________________________________________");
-            for (Object errores : resultadoCargue.getErroresEcontrados()) {
-                System.out.println(errores.toString());
-            }
+//            for (Object errores : resultadoCargue.getErroresEcontrados()) {
+//                System.out.println(errores.toString());
+//            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

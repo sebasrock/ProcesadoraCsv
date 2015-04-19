@@ -34,4 +34,12 @@ public class Estructura3 {
     public void setBigCodigo(BigDecimal bigCodigo) {
         this.bigCodigo = bigCodigo;
     }
+
+    @Override
+    public String toString() {
+        return "Estructura3{" +
+                "nombre='" + nombre + '\'' +
+                ", bigCodigo=" + bigCodigo +
+                '}';
+    }
 }
