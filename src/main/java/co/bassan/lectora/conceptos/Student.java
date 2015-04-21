@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * sebas
  */
-@DatosArchivo(separador = "|")
+@DatosArchivo(separador = "|",cantidadRegistros = 11)
 public class Student {
 
     @DatosCampo(posicion = 0, nombre = "0", trim = true)

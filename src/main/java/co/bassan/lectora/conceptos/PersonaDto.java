@@ -1,5 +1,8 @@
 package co.bassan.lectora.conceptos;
 
+import co.bassan.lectora.anotaciones.DatosCampo;
+import co.bassan.lectora.anotaciones.ValidarCampo;
+
 import java.io.Serializable;
 
 /**
@@ -7,17 +10,38 @@ import java.io.Serializable;
  */
 public class PersonaDto implements Serializable {
 
-
+    @DatosCampo(posicion = 3)
+    @ValidarCampo(requirido = true)
     private String tipoIdentificacion;
+    @DatosCampo(posicion = 4)
+    @ValidarCampo(requirido = true)
     private String numeroIdentificacion;
+    @DatosCampo(posicion = 5)
+    @ValidarCampo(requirido = true)
     private String primerApellido;
+    @DatosCampo(posicion = 6)
+    @ValidarCampo(requirido = true)
     private String segundoApellido;
+    @DatosCampo(posicion = 7)
+    @ValidarCampo(requirido = true)
     private String primerNombre;
+    @DatosCampo(posicion = 8)
+    @ValidarCampo(requirido = true)
     private String segundoNombre;
+    @DatosCampo(posicion = 9)
+    @ValidarCampo(requirido = true)
     private String fechaNacimiento;
+    @DatosCampo(posicion = 10)
+    @ValidarCampo(requirido = true)
     private String sexo;
+    @DatosCampo(posicion =11)
+    @ValidarCampo(requirido = true)
     private String perteneciaEtnica;
+    @DatosCampo(posicion = 12)
+    @ValidarCampo(requirido = true)
     private String ocupacion;
+    @DatosCampo(posicion = 13)
+    @ValidarCampo(requirido = true)
     private String nivelEducativo;
 
 
@@ -110,4 +134,20 @@ public class PersonaDto implements Serializable {
         this.nivelEducativo = nivelEducativo;
     }
 
+    @Override
+    public String toString() {
+        return "PersonaDto{" +
+                "tipoIdentificacion='" + tipoIdentificacion + '\'' +
+                ", numeroIdentificacion='" + numeroIdentificacion + '\'' +
+                ", primerApellido='" + primerApellido + '\'' +
+                ", segundoApellido='" + segundoApellido + '\'' +
+                ", primerNombre='" + primerNombre + '\'' +
+                ", segundoNombre='" + segundoNombre + '\'' +
+                ", fechaNacimiento='" + fechaNacimiento + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", perteneciaEtnica='" + perteneciaEtnica + '\'' +
+                ", ocupacion='" + ocupacion + '\'' +
+                ", nivelEducativo='" + nivelEducativo + '\'' +
+                '}';
+    }
 }

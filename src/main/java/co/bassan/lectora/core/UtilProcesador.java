@@ -64,6 +64,7 @@ public class UtilProcesador {
         if (separador != null && line.indexOf(separador) == 0) {
             line = " " + line;
         }
+        line=line+" ";
         lineRetunr = line.replace(separador + separador, separador + " " + separador);
         return lineRetunr;
     }

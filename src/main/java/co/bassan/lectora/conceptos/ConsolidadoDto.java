@@ -10,7 +10,7 @@ import co.bassan.lectora.anotaciones.ValidarCampo;
  * <p/>
  * Created by pbastidas on 4/19/15.
  */
-@DatosArchivo(saltarPrimeraLinea = true, separador = ",")
+@DatosArchivo(saltarPrimeraLinea = true, separador = ",",cantidadRegistros = 13)
 public class ConsolidadoDto {
 
     @DatosCampo(posicion = 0, trim = true)
@@ -27,8 +27,8 @@ public class ConsolidadoDto {
     @OneToOne
     private PersonaDto personaDto;
 
-    @OneToOne
-    private VariablesControlDto variablesControlDto;
+//    @OneToOne
+//    private VariablesControlDto variablesControlDto;
 
 
 
@@ -67,11 +67,22 @@ public class ConsolidadoDto {
         this.personaDto = personaDto;
     }
 
-    public VariablesControlDto getVariablesControlDto() {
-        return variablesControlDto;
-    }
+//    public VariablesControlDto getVariablesControlDto() {
+//        return variablesControlDto;
+//    }
+//
+//    public void setVariablesControlDto(VariablesControlDto variablesControlDto) {
+//        this.variablesControlDto = variablesControlDto;
+//    }
 
-    public void setVariablesControlDto(VariablesControlDto variablesControlDto) {
-        this.variablesControlDto = variablesControlDto;
+
+    @Override
+    public String toString() {
+        return "ConsolidadoDto{" +
+                "tipoRegitro='" + tipoRegitro + '\'' +
+                ", consecutivo='" + consecutivo + '\'' +
+                ", codigoHabilitacionIps='" + codigoHabilitacionIps + '\'' +
+                ", personaDto=" + personaDto.toString() +
+                '}';
     }
 }

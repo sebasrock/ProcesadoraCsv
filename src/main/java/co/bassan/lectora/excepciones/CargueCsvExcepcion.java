@@ -14,9 +14,9 @@ public class CargueCsvExcepcion extends Exception {
         error = new ErrorCampo(fila, linea, causa, valor);
     }
 
-    public CargueCsvExcepcion(String causa, Object valor, int fila) {
+    public CargueCsvExcepcion(String causa, Object valor, int fila,int linea) {
         super();
-        error = new ErrorCampo(causa, valor, fila);
+        error = new ErrorCampo(causa, valor, fila,linea);
     }
 
     public ErrorCampo getError() {

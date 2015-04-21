@@ -88,6 +88,7 @@ public class LecturaPojo {
             configuracionCarga.setSaltarPrimeraLinea(datosArchivo.saltarPrimeraLinea());
             configuracionCarga.setSeparador(datosArchivo.separador());
             configuracionCarga.setEsMultiEstructura(datosArchivo.multiEstructura());
+            configuracionCarga.setCantidadCampos(datosArchivo.cantidadRegistros());
         }
         return configuracionCarga;
     }

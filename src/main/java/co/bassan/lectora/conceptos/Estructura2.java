@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * Created by sebas on 22/03/15.
  */
-@DatosArchivo(saltarPrimeraLinea = false, separador = ",")
+@DatosArchivo(saltarPrimeraLinea = false, separador = ",",cantidadRegistros = 10)
 public class Estructura2 {
 
     @DatosCampo(posicion = 3, nombre = "4")

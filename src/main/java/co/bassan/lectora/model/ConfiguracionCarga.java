@@ -58,9 +58,7 @@ public class ConfiguracionCarga implements Serializable {
     }
 
     public int getCantidadCampos() {
-        if (configCampos != null) {
-            cantidadCampos = configCampos.size();
-        } else {
+        if (configCampos == null) {
             cantidadCampos = 0;
         }
         return cantidadCampos;

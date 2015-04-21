@@ -15,6 +15,7 @@ public @interface DatosArchivo {
 
     String nombre() default "";
     String separador();
+    int cantidadRegistros();
     boolean saltarPrimeraLinea() default false;
 
     boolean multiEstructura() default false;

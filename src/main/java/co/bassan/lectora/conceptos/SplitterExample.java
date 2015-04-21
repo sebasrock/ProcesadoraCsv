@@ -12,7 +12,7 @@ public class SplitterExample {
 
     public static void main(String[] args) {
         //Input file which needs to be parsed
-        String fileToParse = "/home/sebas/Documentos/Proyectos/PROCESADORCSV/WS/procesador_csv/inbox/csv/MultiEstructura";
+        String fileToParse = "/home/sebas/Documentos/Proyectos/PROCESADORCSV/WS/procesador_csv/inbox/csv/ConsolidadoPrueba";
         String fileToParse2 = "C:\\Users\\985202\\Documents\\LectoraCsv\\inbox\\csv\\student3.txt";
 //        String fileToParse = "D:\\Proyectos\\LectoraCsv\\inbox\\csv\\student2.txt";
 
@@ -28,7 +28,7 @@ public class SplitterExample {
 //        List<Student> lista = new ArrayList<Student>();
 //        lista.add(student);
 //        lista.add(student2);
-        ProcesadorCsv<Estructura1> csv = new ProcesadorCsv<Estructura1>();
+        ProcesadorCsv<ConsolidadoDto> csv = new ProcesadorCsv<ConsolidadoDto>();
 //        try {
 //            csv.transformarObjetoCsv(lista,fileToParse2);
 //        } catch (Exception e) {
@@ -36,19 +36,17 @@ public class SplitterExample {
 //        }
         try {
 
-            ResultadoCargue resultadoCargue = csv.transformarCsvObjeto(Estructura1.class, fileToParse);
+            ResultadoCargue resultadoCargue = csv.transformarCsvObjeto(ConsolidadoDto.class, fileToParse);
 
 
             for (Object student : resultadoCargue.getElementosCargados()) {
                 System.out.println(student.toString());
-                for (Estructura3 s : ((Estructura1)student).getEstructura3()) {
-                    System.out.println(s.toString());
-                }
+
             }
             System.out.println("_______________________________________________________________________");
-//            for (Object errores : resultadoCargue.getErroresEcontrados()) {
-//                System.out.println(errores.toString());
-//            }
+            for (Object errores : resultadoCargue.getErroresEcontrados()) {
+                System.out.println(errores.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

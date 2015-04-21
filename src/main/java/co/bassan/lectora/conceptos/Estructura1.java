@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by sebas on 22/03/15.
  */
-@DatosArchivo(saltarPrimeraLinea = false, separador = ",", multiEstructura = true)
+@DatosArchivo(saltarPrimeraLinea = false, separador = ",", multiEstructura = true,cantidadRegistros = 10)
 public class Estructura1 {
 
     @DatosCampo(posicion = 0, nombre = "0", trim = true)

@@ -1,0 +1,7 @@
+tipoRegitro,consecutivo,codigoHabilitacionIps,tipoIdentificacion,numeroIdentificacion,primerApellido,segundoApellido,primerNombre,segundoNombre,fechaNacimiento,sexo,perteneciaEtnica,ocupacion,nivelEducativo
+1,0,0,cc,1020738488,sanchez,castillo,juan,sebastian,17-11-1988,M,blanca,q,qaz
+2,0,0,cc,1020738488,sanchez,castillo,234234,sebastian,17-11-1988,M,blanca,ingeniero,qaz
+3,123,0,cc,1020738488,sanchez,castillo,juan,sebastian,17-11-1988,M,blanca,ingeniero,qaz
+4,0,0,cc,12,sanchez,castillo,juan,1212,17-11-1988,M,blanca,ingeniero,univercitario
+5,0,0,cc,123412,sanchez,castillo,juan,sebastian,17-11-1988,M,123123,ingeniero,univercitario
+6,0,0,cc,21323,sanchez,castillo,juan,sebastian,17-11-1988,M,blanca,12312312312,univercitario

@@ -17,10 +17,17 @@ public class ErrorCampo {
         this.valor = valor;
     }
 
-    public ErrorCampo(String causa, Object o, Object valor) {
+    public ErrorCampo(String causa, Object valor, int fila) {
         this.causa = causa;
         this.valor = valor;
         this.fila = fila;
+    }
+
+    public ErrorCampo(String causa, Object valor, int fila, int linea) {
+        this.causa = causa;
+        this.valor = valor;
+        this.fila = fila;
+        this.linea = linea;
     }
 
     public ErrorCampo(String causa, String valor, int fila, int linea) {
