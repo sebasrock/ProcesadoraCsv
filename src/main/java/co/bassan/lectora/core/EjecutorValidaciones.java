@@ -32,7 +32,7 @@ public class EjecutorValidaciones {
     public List<ErrorCampo> ejecutor() {
         List<ErrorCampo> errores = new ArrayList<ErrorCampo>();
         try {
-//            validacionesGenerales();
+            validacionesGenerales();
 
             if (config.getValidaciones().isRequirido())
                 validarSiEsRequerido(config.getValor(), config.getPosicion());
@@ -98,7 +98,7 @@ public class EjecutorValidaciones {
      * @throws CargueCsvExcepcion
      */
     private void validacionesGenerales() throws CargueCsvExcepcion {
-        if (cantidadConfigurada != cantidadCarga) {
+        if (cantidadConfigurada != (cantidadCarga-1)) {
             throw new CargueCsvExcepcion("Numero de columanas diferentes", null, fila,0);
         }
     }

@@ -56,9 +56,6 @@ public class ProcesadorCsv<T> {
         String palabraIndiceNueva = null;
         String[] campos = new String[0];
 
-        if (fila != 0)
-            fila = fila + 1;
-
         if (line == null && (line = fileReader.readLine()) != null) {
             line = UtilProcesador.prepararLinea(line, config.getSeparador());
             campos = UtilProcesador.separacionLinea(line, config.getSeparador());
@@ -80,12 +77,18 @@ public class ProcesadorCsv<T> {
                 }
             }
         }
-        if (campos != null && campos.length > 0) {
-
-            T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), config.getCantidadCampos(), pojo, fileReader, fila);
-            lista.add(pojoRespuesta);
+        if(config.getCantidadCampos()+1!= campos.length){
+            listaErrores.add(new ErrorCampo(fila,0,"El numero de columnas no es igual alo parametrizado",null));
             fila++;
-            line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion, fila);
+//            line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion, fila);
+        }else {
+            if (campos != null && campos.length > 0) {
+
+                T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), config.getCantidadCampos(), pojo, fileReader, fila);
+                lista.add(pojoRespuesta);
+                fila++;
+                line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion, fila);
+            }
         }
 
         return line;
@@ -146,7 +149,6 @@ public class ProcesadorCsv<T> {
     private void almacenamientoObjetoOneToOne(String[] campos, T objeto, ConfiguracionCampo configCampo, int cantidadCampos, BufferedReader fileReader, int fila) throws Exception {
         T objetoOne = (T) configCampo.getTipoDato();
         ConfiguracionCarga configuracionCargaOne = obtenerConfiguracion((Class<T>) objetoOne, Boolean.FALSE);
-        fila--;
         objetoOne = almacenamientoObjeto(campos, configuracionCargaOne.getConfigCampos(), cantidadCampos, (Class<T>) objetoOne, fileReader, fila);
         Method lMethod = obtenerMetodoSet(objeto, configCampo);
         setearValorMetodo(lMethod, objetoOne, objeto);
