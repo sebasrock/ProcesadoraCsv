@@ -5,9 +5,7 @@ import co.bassan.lectora.model.ConfiguracionCarga;
 import co.bassan.lectora.model.ErrorCampo;
 import co.bassan.lectora.model.ResultadoCargue;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +26,25 @@ public class ProcesadorCsv<T> {
         ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
         try {
             fileReader = obtenerArchivo(rutaCsv);
+
+            List<T> pojosRetorno = preparacionLecuraConfiguraciones(fileReader, pojo);
+
+            resultadoCargue.setElementosCargados(pojosRetorno);
+            resultadoCargue.setErroresEcontrados(listaErrores);
+            return resultadoCargue;
+        } finally {
+            fileReader.close();
+        }
+
+    }
+
+    public ResultadoCargue<T> transformarCsvObjeto(Class<T> pojo, byte[] archivoBinario) throws Exception {
+        BufferedReader fileReader = null;
+        listaErrores = new ArrayList<ErrorCampo>();
+        ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
+        try {
+            InputStream is  = new ByteArrayInputStream(archivoBinario);
+            fileReader = new BufferedReader(new InputStreamReader(is));
 
             List<T> pojosRetorno = preparacionLecuraConfiguraciones(fileReader, pojo);
 
