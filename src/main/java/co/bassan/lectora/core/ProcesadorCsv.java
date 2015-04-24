@@ -43,7 +43,7 @@ public class ProcesadorCsv<T> {
         listaErrores = new ArrayList<ErrorCampo>();
         ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
         try {
-            InputStream is  = new ByteArrayInputStream(archivoBinario);
+            InputStream is = new ByteArrayInputStream(archivoBinario);
             fileReader = new BufferedReader(new InputStreamReader(is));
 
             List<T> pojosRetorno = preparacionLecuraConfiguraciones(fileReader, pojo);
@@ -94,18 +94,16 @@ public class ProcesadorCsv<T> {
                 }
             }
         }
-        if(config.getCantidadCampos()+1!= campos.length){
-            listaErrores.add(new ErrorCampo(fila,0,"El numero de columnas no es igual alo parametrizado",null));
-            fila++;
-//            line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion, fila);
-        }else {
-            if (campos != null && campos.length > 0) {
+        if (campos != null && campos.length > 0) {
 
+            if (config.getCantidadCampos() + 1 != campos.length) {
+                listaErrores.add(new ErrorCampo(fila, 0, "El numero de columnas no es igual alo parametrizado", null));
+            } else {
                 T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), config.getCantidadCampos(), pojo, fileReader, fila);
                 lista.add(pojoRespuesta);
-                fila++;
-                line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion, fila);
             }
+            fila++;
+            line = prepararAlamacenamientoObjeto(fileReader, config, lista, pojo, palabraIndiceNueva, lineContinuacion, fila);
         }
 
         return line;
@@ -122,7 +120,7 @@ public class ProcesadorCsv<T> {
                 setearValorMetodo(lMethod, UtilProcesador.createListOfType(configCampo.getTipoDatoGenerico()), objeto);
                 listFielsOneToMany.add(configCampo);
             } else if (configCampo.isEsOneToOne()) {
-                almacenamientoObjetoOneToOne(campos, objeto, configCampo, cantidadCampos, fileReader,fila);
+                almacenamientoObjetoOneToOne(campos, objeto, configCampo, cantidadCampos, fileReader, fila);
             } else {
                 almacenamientoObjetoBasico(campos, objeto, configCampo);
                 listaErrores.addAll(EjecutorValidaciones.getIntancia(configCampo, cantidadCampos, fila, campos.length).ejecutor());
@@ -130,7 +128,7 @@ public class ProcesadorCsv<T> {
 
         }
 
-        String line = procesamientoMultiEstructura(listFielsOneToMany, objeto, fileReader,fila);
+        String line = procesamientoMultiEstructura(listFielsOneToMany, objeto, fileReader, fila);
         lineContinuacion = line;
         return objeto;
     }
