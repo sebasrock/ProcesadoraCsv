@@ -1,3 +1,0 @@
-codigo,semester,name,javaMarks,cMarks,dbmsMarks,mathematicsMarks,dataStructureMarks
-1,dfdsfsd,dfssssssss,null,0,null,0,0,
-1werrrrrr,dfdsfsdwerrrrrrrrrrrrrrrr,dfssssssswreeeeeeeeeeeeees,null,0,null,0,0,
