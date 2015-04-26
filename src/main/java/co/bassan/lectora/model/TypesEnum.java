@@ -2,6 +2,7 @@ package co.bassan.lectora.model;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Sebastian Sanchez on 09/02/2015.
@@ -63,12 +64,20 @@ public enum TypesEnum {
             return Long.parseLong(s);
         }
     },
+    DATE {
+        @Override
+        public Object parse(String s) throws Exception {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+            return formatter.parse(s);
+        }
+    },
     DOUBLE {
         @Override
         public Object parse(String s) throws Exception {
             return Double.parseDouble(s);
         }
     };
+
 
     public abstract Object parse(String s) throws Exception;
 
