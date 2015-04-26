@@ -32,7 +32,6 @@ public class EjecutorValidaciones {
     public List<ErrorCampo> ejecutor() {
         List<ErrorCampo> errores = new ArrayList<ErrorCampo>();
         try {
-            validacionesGenerales();
 
             if (config.getValidaciones().isRequirido())
                 validarSiEsRequerido(config.getValor(), config.getPosicion());
