@@ -7,6 +7,8 @@ import co.bassan.lectora.model.TypesEnum;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -47,16 +49,16 @@ public class UtilProcesador {
         return interfaz.stringToObjeto(valorStr);
     }
 
-    static Object parsePrimitiveFromString(String valorStr, Class<?> tipoDato) throws Exception {
+    static Object parsePrimitiveFromString(String valorStr, Class<?> tipoDato, String formatoFecha) throws Exception {
+        if(tipoDato.getSimpleName().toUpperCase().equals("DATE")){
+            return UtilProcesador.parseDateFromString(valorStr, formatoFecha );
+        }
         return TypesEnum.parseObjectFromString(valorStr, tipoDato);
     }
 
-    public static <T> T parseObjectFromString(String s, Class<T> clazz) throws Exception {
-        if (s != null && clazz != null && !clazz.isPrimitive()) {
-            return (T) clazz.getConstructor(new Class[]{String.class}).newInstance(s);
-        } else {
-            return null;
-        }
+    private static Object parseDateFromString(String s, String formatoFecha) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
+        return formatter.parse(s);
     }
 
     static String prepararLinea(String line, String separador) {
@@ -69,16 +71,20 @@ public class UtilProcesador {
         return lineRetunr;
     }
 
-    void agregarError(String causa, String valor, List<ErrorCampo> errores, int fila, int linea) {
-        agregarError(new ErrorCampo(causa, valor, fila, linea), errores);
-    }
-
-    void agregarError(ErrorCampo errorCampo, List<ErrorCampo> errores) {
-        errores.add(errorCampo);
+    public static String limpiarEspacios(ConfiguracionCampo configCampo, String valorStr) {
+        if (!configCampo.getTipoDato().getSimpleName().equals("String") || configCampo.isTrim()) {
+            valorStr = valorStr.trim();
+        }
+        return valorStr;
     }
 
 
     public static <T> List<T> createListOfType(Class<T> type) {
         return new ArrayList<T>();
+    }
+
+    public static void adicionarError(List<ErrorCampo> listaErrores, int fila, Exception e, ConfiguracionCampo configCampo) {
+        ErrorCampo errorCampo = new ErrorCampo(fila,configCampo.getPosicion(),e.getMessage(),configCampo.getValor());
+        listaErrores.add(errorCampo);
     }
 }

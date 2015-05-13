@@ -7,6 +7,7 @@ import co.bassan.lectora.model.ResultadoCargue;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,19 +86,22 @@ public class ProcesadorCsv<T> {
             }
         } else {
             if (line != null) {
-
                 line = UtilProcesador.prepararLinea(line, config.getSeparador());
                 campos = UtilProcesador.separacionLinea(line, config.getSeparador());
                 if (config.isEsMultiEstructura() && campos.length > 0) {
                     palabraIndiceNueva = campos[0];
                     campos = Arrays.copyOfRange(campos, 1, campos.length);
                 }
+
+                if(lineAnterior!=null){
+                    lineContinuacion=null;
+                }
             }
         }
         if (campos != null && campos.length > 0) {
 
-            if (config.getCantidadCampos() + 1 != campos.length) {
-                listaErrores.add(new ErrorCampo(fila, 0, "El numero de columnas no es igual alo parametrizado", null));
+            if (config.getCantidadCampos() != campos.length) {
+                listaErrores.add(new ErrorCampo(fila, 0, "El numero de columnas no es igual a lo parametrizado", null));
             } else {
                 T pojoRespuesta = almacenamientoObjeto(campos, config.getConfigCampos(), config.getCantidadCampos(), pojo, fileReader, fila);
                 lista.add(pojoRespuesta);
@@ -122,8 +126,12 @@ public class ProcesadorCsv<T> {
             } else if (configCampo.isEsOneToOne()) {
                 almacenamientoObjetoOneToOne(campos, objeto, configCampo, cantidadCampos, fileReader, fila);
             } else {
-                almacenamientoObjetoBasico(campos, objeto, configCampo);
-                listaErrores.addAll(EjecutorValidaciones.getIntancia(configCampo, cantidadCampos, fila, campos.length).ejecutor());
+                try {
+                    almacenamientoObjetoBasico(campos, objeto, configCampo);
+                    listaErrores.addAll(EjecutorValidaciones.getIntancia(configCampo, cantidadCampos, fila, campos.length).ejecutor());
+                }catch (IllegalArgumentException | ParseException e){
+                    UtilProcesador.adicionarError(listaErrores,fila,e,configCampo);
+                }
             }
 
         }
@@ -198,20 +206,14 @@ public class ProcesadorCsv<T> {
 
         String valorStr = campos[configCampo.getPosicion()];
 
-        valorStr = limpiarEspacios(configCampo, valorStr);
+        valorStr = UtilProcesador.limpiarEspacios(configCampo, valorStr);
 
         if (!configCampo.getConvercionClass().getSimpleName().equals("ConvertidorInterfaz")) {
             return UtilProcesador.parseStringToConvercionClass(configCampo.getConvercionClass(), valorStr);
         } else {
-            return UtilProcesador.parsePrimitiveFromString(valorStr, configCampo.getTipoDato());
+            return UtilProcesador.parsePrimitiveFromString(valorStr, configCampo.getTipoDato(),configCampo.getValidaciones().getFormatoFecha());
         }
     }
 
-    private String limpiarEspacios(ConfiguracionCampo configCampo, String valorStr) {
-        if (!configCampo.getTipoDato().getSimpleName().equals("String") || configCampo.isTrim()) {
-            valorStr = valorStr.trim();
-        }
-        return valorStr;
-    }
 
 }

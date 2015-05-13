@@ -31,7 +31,7 @@ public @interface ValidarCampo {
 
     String[] listaLimitante() default {};
 
-    String fromatoFecha() default "";
+    String fromatoFecha() default "yyyy-MM-dd";
 
     /**
      * Field's default value in case no value is set

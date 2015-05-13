@@ -2,7 +2,6 @@ package co.bassan.lectora.core;
 
 import co.bassan.lectora.excepciones.CargueCsvExcepcion;
 import co.bassan.lectora.model.ConfiguracionCampo;
-import co.bassan.lectora.model.ConfiguracionCarga;
 import co.bassan.lectora.model.ErrorCampo;
 
 import java.text.ParseException;
@@ -31,22 +30,21 @@ public class EjecutorValidaciones {
      */
     public List<ErrorCampo> ejecutor() {
         List<ErrorCampo> errores = new ArrayList<ErrorCampo>();
-        try {
-
-            if (config.getValidaciones().isRequirido())
-                validarSiEsRequerido(config.getValor(), config.getPosicion());
-            if (config.getValidaciones().getLongitudMinima() != 0)
-                validarLongitudMinima(config.getValidaciones().getLongitudMinima(), config.getValor(), errores, config.getPosicion());
-            if (config.getValidaciones().getLongitudMaxima() != 0)
-                validarLongitudMaxima(config.getValidaciones().getLongitudMaxima(), config.getValor(), errores, config.getPosicion());
-            if (config.getValidaciones().getExprecion() != null)
-                validarPatron(config.getValidaciones().getExprecion(), config.getValor(), errores, config.getPosicion());
-            if (config.getValidaciones().getListaLimitante() != null && config.getValidaciones().getListaLimitante().length > 0)
-                validarListaLimite(config.getValidaciones().getListaLimitante(), config.getValor(), errores, config.getPosicion());
-            if (config.getValidaciones().getFormatoFecha() != null && !"".equals(config.getValidaciones().getFormatoFecha()))
-                validarFormatoFecha(config.getValidaciones().getFormatoFecha(), config.getValor(), errores, config.getPosicion());
-        } catch (CargueCsvExcepcion e) {
-            agregarError(e.getError(), errores);
+        if(config.getValidaciones()!=null) {
+            try {
+                if (config.getValidaciones().isRequirido())
+                    validarSiEsRequerido(config.getValor(), config.getPosicion());
+                if (config.getValidaciones().getLongitudMinima() != 0)
+                    validarLongitudMinima(config.getValidaciones().getLongitudMinima(), config.getValor(), errores, config.getPosicion());
+                if (config.getValidaciones().getLongitudMaxima() != 0)
+                    validarLongitudMaxima(config.getValidaciones().getLongitudMaxima(), config.getValor(), errores, config.getPosicion());
+                if (config.getValidaciones().getExprecion() != null)
+                    validarPatron(config.getValidaciones().getExprecion(), config.getValor(), errores, config.getPosicion());
+                if (config.getValidaciones().getListaLimitante() != null && config.getValidaciones().getListaLimitante().length > 0)
+                    validarListaLimite(config.getValidaciones().getListaLimitante(), config.getValor(), errores, config.getPosicion());
+            } catch (CargueCsvExcepcion e) {
+                agregarError(e.getError(), errores);
+            }
         }
         return errores;
     }

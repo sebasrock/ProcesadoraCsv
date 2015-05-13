@@ -13,43 +13,43 @@ public enum TypesEnum {
     INT {
         @Override
         public Object parse(String s) throws Exception {
-            return Integer.parseInt(s);
+                return Integer.parseInt(s);
         }
     },
     STRING {
         @Override
-        public Object parse(String s) throws Exception {
+        public String parse(String s) throws Exception {
             return s;
         }
     },
     INTEGER {
         @Override
         public Object parse(String s) throws Exception {
-            return Integer.parseInt(s);
+                return Integer.parseInt(s);
         }
     },
     BIGINTEGER {
         @Override
         public Object parse(String s) throws Exception {
-            return BigInteger.valueOf(Long.parseLong(s));
+                return BigInteger.valueOf(Long.parseLong(s));
         }
     },
     BIGDECIMAL {
         @Override
         public Object parse(String s) throws Exception {
-            return BigDecimal.valueOf(Long.parseLong(s));
+                return BigDecimal.valueOf(Long.parseLong(s));
         }
     },
     FLOAT {
         @Override
         public Object parse(String s) throws Exception {
-            return Float.parseFloat(s);
+                return Float.parseFloat(s);
         }
     },
     SHORT {
         @Override
         public Object parse(String s) throws Exception {
-            return Short.parseShort(s);
+                return Short.parseShort(s);
         }
     },
     BOOLEAN {
@@ -61,20 +61,13 @@ public enum TypesEnum {
     LONG {
         @Override
         public Object parse(String s) throws Exception {
-            return Long.parseLong(s);
-        }
-    },
-    DATE {
-        @Override
-        public Object parse(String s) throws Exception {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-            return formatter.parse(s);
+                return Long.parseLong(s);
         }
     },
     DOUBLE {
         @Override
         public Object parse(String s) throws Exception {
-            return Double.parseDouble(s);
+                return Double.parseDouble(s);
         }
     };
 
@@ -84,4 +77,5 @@ public enum TypesEnum {
     public static Object parseObjectFromString(String s, Class<?> cls) throws Exception {
         return valueOf(cls.getSimpleName().toUpperCase()).parse(s);
     }
+
 }
