@@ -27,7 +27,7 @@ public class ProcesasarArchivoTest {
 
 
     @Test
-    public void probarCargaExitosa(){
+    public void probarCargaRegistroControlExitosa(){
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
@@ -36,7 +36,25 @@ public class ProcesasarArchivoTest {
             ResultadoCargue<ArchivoDto> resultadoCargue = csv.transformarCsvObjeto(ArchivoDto.class, PATH_FILE);
 
             // Entonces
-            assertThat(resultadoCargue.getElementosCargados()).hasSize(1);
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(1).isInstanceOf(ArrayList.class).extracting("registroControl").extracting("codigoEPS").contains("EPS005");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void probarCargaConsolidadoExitosa(){
+        try {
+            // Dado
+            ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
+
+            // Cuando
+            ResultadoCargue<ArchivoDto> resultadoCargue = csv.transformarCsvObjeto(ArchivoDto.class, PATH_FILE);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(1).isInstanceOf(ArrayList.class).extracting("litaConsolidado").hasSize(1);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
