@@ -58,6 +58,8 @@ public class UtilProcesador {
 
     private static Object parseDateFromString(String s, String formatoFecha) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
+        formatter.applyPattern(formatoFecha);
+        formatter.setLenient(Boolean.FALSE);
         return formatter.parse(s);
     }
 
