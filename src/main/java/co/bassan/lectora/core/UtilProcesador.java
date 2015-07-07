@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -60,7 +61,10 @@ public class UtilProcesador {
         SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
         formatter.applyPattern(formatoFecha);
         formatter.setLenient(Boolean.FALSE);
-        return formatter.parse(s);
+        Date fecha = formatter.parse(s);
+        if(fecha==null && (s!=null & !s.isEmpty()))
+            throw new Exception("La fecha no es valida, no existe");
+        return fecha;
     }
 
     static String prepararLinea(String line, String separador) {
