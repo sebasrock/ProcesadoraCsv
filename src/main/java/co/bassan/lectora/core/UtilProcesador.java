@@ -58,13 +58,15 @@ public class UtilProcesador {
     }
 
     private static Object parseDateFromString(String s, String formatoFecha) throws Exception {
-        SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
-        formatter.applyPattern(formatoFecha);
-        formatter.setLenient(Boolean.FALSE);
-        Date fecha = formatter.parse(s);
-        if(fecha==null && (s!=null & !s.isEmpty()))
-            throw new Exception("La fecha no es valida, no existe");
-        return fecha;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
+            formatter.applyPattern(formatoFecha);
+            formatter.setLenient(Boolean.FALSE);
+            Date fecha = formatter.parse(s);
+            return fecha;
+        }catch (ParseException e){
+            throw new Exception("La fecha no es valida : " + s);
+        }
     }
 
     static String prepararLinea(String line, String separador) {
