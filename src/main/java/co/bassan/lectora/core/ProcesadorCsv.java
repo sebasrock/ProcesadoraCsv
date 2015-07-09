@@ -129,7 +129,7 @@ public class ProcesadorCsv<T> {
                 try {
                     almacenamientoObjetoBasico(campos, objeto, configCampo);
                     listaErrores.addAll(EjecutorValidaciones.getIntancia(configCampo, cantidadCampos, fila, campos.length).ejecutor());
-                }catch (IllegalArgumentException | ParseException e){
+                }catch (Exception e){
                     UtilProcesador.adicionarError(listaErrores,fila,e,configCampo);
                 }
             }

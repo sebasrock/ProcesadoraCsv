@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -57,8 +58,15 @@ public class UtilProcesador {
     }
 
     private static Object parseDateFromString(String s, String formatoFecha) throws Exception {
-        SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
-        return formatter.parse(s);
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
+            formatter.applyPattern(formatoFecha);
+            formatter.setLenient(Boolean.FALSE);
+            Date fecha = formatter.parse(s);
+            return fecha;
+        }catch (ParseException e){
+            throw new Exception("La fecha no es valida : " + s);
+        }
     }
 
     static String prepararLinea(String line, String separador) {
