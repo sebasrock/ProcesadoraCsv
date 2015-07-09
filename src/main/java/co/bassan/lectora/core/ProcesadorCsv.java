@@ -8,9 +8,7 @@ import co.bassan.lectora.model.ResultadoCargue;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Sebastian- on 08/02/2015.
@@ -56,6 +54,36 @@ public class ProcesadorCsv<T> {
             fileReader.close();
         }
 
+    }
+
+    public BufferedOutputStream transformarObjetoCsv(List<T> tList, String rutaCsv) throws Exception {
+        if (tList != null && tList.size() > 0) {
+            BufferedOutputStream bufferedOutput = new BufferedOutputStream(new FileOutputStream(rutaCsv));
+            ConfiguracionCarga configuracionCarga = obtenerConfiguracion((Class<T>) tList.get(0).getClass(),Boolean.FALSE);
+            Collections.sort(configuracionCarga.getConfigCampos(), new Comparator<ConfiguracionCampo>() {
+                public int compare(ConfiguracionCampo confCamp1, ConfiguracionCampo confCamp2) {
+                    if (confCamp1.getPosicion() > confCamp2.getPosicion())
+                        return 1;
+                    else if (confCamp1.getPosicion() < confCamp2.getPosicion())
+                        return -1;
+                    else if (confCamp1.getPosicion() == confCamp2.getPosicion())
+                        return 0;
+                    return 0;
+                }
+            });
+            UtilProcesador.imprimirCabecera(bufferedOutput, configuracionCarga.getConfigCampos());
+            for (T tClass : tList) {
+                for (ConfiguracionCampo configuracionCampo : configuracionCarga.getConfigCampos()) {
+
+                    Method method =tClass.getClass().getMethod(configuracionCampo.getGetNombreCampo(),null);
+                    bufferedOutput.write((method.invoke(tClass, null) + ",").getBytes());
+                }
+                bufferedOutput.write("\n".getBytes());
+            }
+            bufferedOutput.close();
+            return bufferedOutput;
+        }
+        return null;
     }
 
     private List<T> preparacionLecuraConfiguraciones(BufferedReader fileReader, Class<T> pojo) throws Exception {

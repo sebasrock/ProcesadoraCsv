@@ -3,11 +3,16 @@ package co.bassan.procesadoraCsv;
 import co.bassan.lectora.core.ProcesadorCsv;
 import co.bassan.lectora.model.ResultadoCargue;
 import co.bassan.procesadoraCsv.DTOTest.ArchivoDto;
+import co.bassan.procesadoraCsv.DTOTest.VariablesControlDto;
 import org.junit.Assert;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+import java.io.BufferedOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProcesasarArchivoTest {
 
     private static final String PATH_FILE = "/home/sebas/Documentos/SGD280RPED20WW0228NI000900058443C.txt";
-
+    private static final String PATH_FILE2 = "/home/sebas/Documentos/qaz.txt";
 
 
 
@@ -86,6 +91,37 @@ public class ProcesasarArchivoTest {
 
             // Entonces
             assertThat(resultadoCargue.getElementosCargados().get(0).getRegistroControl().getFechaFinalPeriodoReportado()).isNull();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+
+    @Test
+    public void probarGeneracionArchivoCsv(){
+        try {
+            // Dado
+            PodamFactory factory = new PodamFactoryImpl();
+            ProcesadorCsv<VariablesControlDto> csv = new ProcesadorCsv<VariablesControlDto>();
+
+            List<VariablesControlDto> lista = new ArrayList<>();
+
+            VariablesControlDto myPojo = factory.manufacturePojo(VariablesControlDto.class);
+            lista.add(myPojo);
+            VariablesControlDto myPojo2 = factory.manufacturePojo(VariablesControlDto.class);
+            lista.add(myPojo2);
+            VariablesControlDto myPojo3 = factory.manufacturePojo(VariablesControlDto.class);
+            lista.add(myPojo3);
+            VariablesControlDto myPojo4 = factory.manufacturePojo(VariablesControlDto.class);
+            lista.add(myPojo4);
+
+            // Cuando
+            BufferedOutputStream resultadoCargue = csv.transformarObjetoCsv(lista,PATH_FILE2);
+
+            // Entonces
+//            assertThat(resultadoCargue.getElementosCargados().get(0).getRegistroControl().getFechaFinalPeriodoReportado()).isNull();
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());

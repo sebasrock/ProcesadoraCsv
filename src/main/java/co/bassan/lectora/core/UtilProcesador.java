@@ -18,7 +18,7 @@ public class UtilProcesador {
     public UtilProcesador() {
     }
 
-    public void imprimirCabecera(BufferedOutputStream bufferedOutput, List<ConfiguracionCampo> configuracionCarga) throws IOException {
+    public static void imprimirCabecera(BufferedOutputStream bufferedOutput, List<ConfiguracionCampo> configuracionCarga) throws IOException {
         StringBuilder cabecera = new StringBuilder();
 
         for (ConfiguracionCampo configuracionCampo : configuracionCarga) {
