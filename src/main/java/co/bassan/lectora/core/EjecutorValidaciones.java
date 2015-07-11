@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class EjecutorValidaciones {
      */
     public List<ErrorCampo> ejecutor() {
         List<ErrorCampo> errores = new ArrayList<ErrorCampo>();
-        if(config.getValidaciones()!=null) {
+        if (config.getValidaciones() != null) {
             try {
                 if (config.getValidaciones().isRequirido())
                     validarSiEsRequerido(config.getValor(), config.getPosicion());
@@ -42,11 +43,52 @@ public class EjecutorValidaciones {
                     validarPatron(config.getValidaciones().getExprecion(), config.getValor(), errores, config.getPosicion());
                 if (config.getValidaciones().getListaLimitante() != null && config.getValidaciones().getListaLimitante().length > 0)
                     validarListaLimite(config.getValidaciones().getListaLimitante(), config.getValor(), errores, config.getPosicion());
+                if (config.getValidaciones().getFechaMinima() != null && !config.getValidaciones().getFechaMinima().isEmpty())
+                    validarFechaMinima(config.getValidaciones().getFechaMinima(),config.getValidaciones().getFormatoFecha(), config.getValor(), errores, config.getPosicion());
+                if (config.getValidaciones().getFechaMaxima() != null && !config.getValidaciones().getFechaMaxima().isEmpty())
+                    validarFechaMaxima(config.getValidaciones().getFechaMaxima(), config.getValidaciones().getFormatoFecha(), config.getValor(), errores, config.getPosicion());
             } catch (CargueCsvExcepcion e) {
                 agregarError(e.getError(), errores);
             }
         }
         return errores;
+    }
+
+    /**
+     * Valida que la fecha ingresada sea mayor a la fecha parametrizada en la fecha minima
+     *
+     * @param fechaMinima
+     * @param formatoFecha
+     * @param valor
+     * @param errores
+     * @param posicion
+     */
+    private void validarFechaMinima(String fechaMinima, String formatoFecha, String valor, List<ErrorCampo> errores, int posicion) {
+        Date fechaMin = validarFormatoFecha(formatoFecha,fechaMinima,errores,posicion);
+        Date fecha = validarFormatoFecha(formatoFecha,valor,errores,posicion);
+        if(fechaMin!=null && fecha !=null && fecha.before(fechaMin)){
+            agregarError("fecha es menor a la permitida , Fecha minima :" + fechaMinima , valor, errores, posicion);
+        }
+
+    }
+
+
+    /**
+     * Valida que la fecha ingresada sea menor a la fecha parametrizada en la fecha maxima
+     *
+     * @param fechaMaxima
+     * @param formatoFecha
+     * @param valor
+     * @param errores
+     * @param posicion
+     */
+    private void validarFechaMaxima(String fechaMaxima, String formatoFecha, String valor, List<ErrorCampo> errores, int posicion) {
+        Date fechaMax = validarFormatoFecha(formatoFecha,fechaMaxima,errores,posicion);
+        Date fecha = validarFormatoFecha(formatoFecha,valor,errores,posicion);
+        if(fechaMax!=null && fecha !=null && fechaMax.before(fecha)){
+            agregarError("fecha es mayor a la permitida , Fecha maxima :" + fechaMaxima , valor, errores, posicion);
+        }
+
     }
 
     /**
@@ -57,19 +99,20 @@ public class EjecutorValidaciones {
      * @param errores
      * @param linea
      */
-    private void validarFormatoFecha(String formatoFecha, String valor, List<ErrorCampo> errores, int linea) {
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(formatoFecha);
-
-        if (valor.trim().length() != dateFormat.toPattern().length())
-            agregarError("No tiene un formato de fecha correcto : " + formatoFecha, valor, errores, linea);
-
-        dateFormat.setLenient(false);
-
+    private Date validarFormatoFecha(String formatoFecha, String valor, List<ErrorCampo> errores, int linea) {
         try {
-            dateFormat.parse(valor.trim());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(formatoFecha);
+
+            if (valor.trim().length() != dateFormat.toPattern().length())
+                agregarError("No tiene un formato de fecha correcto : " + formatoFecha, valor, errores, linea);
+
+            dateFormat.setLenient(false);
+
+
+            return dateFormat.parse(valor.trim());
         } catch (ParseException pe) {
             agregarError("No tiene un formato de fecha correcto : " + formatoFecha, valor, errores, linea);
+            return null;
         }
 
     }
@@ -95,8 +138,8 @@ public class EjecutorValidaciones {
      * @throws CargueCsvExcepcion
      */
     private void validacionesGenerales() throws CargueCsvExcepcion {
-        if (cantidadConfigurada != (cantidadCarga-1)) {
-            throw new CargueCsvExcepcion("Numero de columanas diferentes", null, fila,0);
+        if (cantidadConfigurada != (cantidadCarga - 1)) {
+            throw new CargueCsvExcepcion("Numero de columanas diferentes", null, fila, 0);
         }
     }
 
@@ -151,7 +194,7 @@ public class EjecutorValidaciones {
      */
     public void validarSiEsRequerido(String valor, int linea) throws CargueCsvExcepcion {
         if (valor == null || "".equals(valor.trim())) {
-            throw new CargueCsvExcepcion("el valor es requerido: " + valor, valor, fila,linea);
+            throw new CargueCsvExcepcion("el valor es requerido: " + valor, valor, fila, linea);
         }
     }
 
@@ -164,7 +207,7 @@ public class EjecutorValidaciones {
      * @param linea
      */
     private void agregarError(String causa, String valor, List<ErrorCampo> errores, int linea) {
-        agregarError(new ErrorCampo(causa, valor, fila,linea), errores);
+        agregarError(new ErrorCampo(causa, valor, fila, linea), errores);
     }
 
     /**

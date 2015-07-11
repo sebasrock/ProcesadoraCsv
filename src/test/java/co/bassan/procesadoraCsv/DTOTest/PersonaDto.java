@@ -30,7 +30,7 @@ public class PersonaDto implements Serializable {
     @ValidarCampo(requirido = true)
     private String segundoNombre_8;
     @DatosCampo(posicion = 8)
-    @ValidarCampo(requirido = true,fromatoFecha ="yyyy-MM-dd" )
+    @ValidarCampo(requirido = true,formatoFecha ="yyyy-MM-dd" )
     private Date fechaNacimiento_9;
     @DatosCampo(posicion = 9)
     @ValidarCampo(requirido = true)

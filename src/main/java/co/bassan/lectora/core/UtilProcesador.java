@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class UtilProcesador {
+
     public UtilProcesador() {
     }
 
@@ -50,23 +51,25 @@ public class UtilProcesador {
         return interfaz.stringToObjeto(valorStr);
     }
 
-    static Object parsePrimitiveFromString(String valorStr, Class<?> tipoDato, String formatoFecha) throws Exception {
-        if(tipoDato.getSimpleName().toUpperCase().equals("DATE")){
-            return UtilProcesador.parseDateFromString(valorStr, formatoFecha );
-        }
+    static Object parsePrimitiveFromString(String valorStr, Class<?> tipoDato) throws Exception {
         return TypesEnum.parseObjectFromString(valorStr, tipoDato);
     }
 
-    private static Object parseDateFromString(String s, String formatoFecha) throws Exception {
+    public static Object parseDateFromString(String valor, String formatoFecha) throws Exception {
+
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat(formatoFecha);
-            formatter.applyPattern(formatoFecha);
-            formatter.setLenient(Boolean.FALSE);
-            Date fecha = formatter.parse(s);
-            return fecha;
-        }catch (ParseException e){
-            throw new Exception("La fecha no es valida : " + s);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(formatoFecha);
+
+            if (valor.trim().length() != dateFormat.toPattern().length())
+                throw new IllegalArgumentException("No tiene un formato de fecha correcto : " + formatoFecha);
+
+            dateFormat.setLenient(Boolean.FALSE);
+
+            return dateFormat.parse(valor.trim());
+        } catch (ParseException pe) {
+            throw new IllegalArgumentException("No tiene un formato de fecha correcto o la fecha no existe: (" + formatoFecha + " ) - " + valor);
         }
+
     }
 
     static String prepararLinea(String line, String separador) {
@@ -74,7 +77,7 @@ public class UtilProcesador {
         if (separador != null && line.indexOf(separador) == 0) {
             line = " " + line;
         }
-        line=line+" ";
+        line = line + " ";
         lineRetunr = line.replace(separador + separador, separador + " " + separador);
         return lineRetunr;
     }
@@ -92,7 +95,7 @@ public class UtilProcesador {
     }
 
     public static void adicionarError(List<ErrorCampo> listaErrores, int fila, Exception e, ConfiguracionCampo configCampo) {
-        ErrorCampo errorCampo = new ErrorCampo(fila,configCampo.getPosicion(),e.getMessage(),configCampo.getValor());
+        ErrorCampo errorCampo = new ErrorCampo(fila, configCampo.getPosicion(), e.getMessage(), configCampo.getValor());
         listaErrores.add(errorCampo);
     }
 }

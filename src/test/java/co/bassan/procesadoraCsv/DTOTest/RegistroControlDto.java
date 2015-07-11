@@ -14,10 +14,10 @@ public class RegistroControlDto {
     @ValidarCampo(requirido = true)
     private String codigoEPS;
     @DatosCampo(posicion = 1, trim = true)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd",fechaMinima = "1900-01-01")
     private Date fechaInicialPeriodoReportado;
     @DatosCampo(posicion = 2, trim = true)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd",fechaMaxima = "2015-01-01")
     private Date fechaFinalPeriodoReportado;
     @DatosCampo(posicion = 3, trim = true)
     @ValidarCampo(requirido = true)

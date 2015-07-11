@@ -21,7 +21,7 @@ public class ProcesadorCsv<T> {
 
     public ResultadoCargue<T> transformarCsvObjeto(Class<T> pojo, String rutaCsv) throws Exception {
         BufferedReader fileReader = null;
-        listaErrores = new ArrayList<ErrorCampo>();
+        listaErrores = new ArrayList<>();
         ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
         try {
             fileReader = obtenerArchivo(rutaCsv);
@@ -39,7 +39,7 @@ public class ProcesadorCsv<T> {
 
     public ResultadoCargue<T> transformarCsvObjeto(Class<T> pojo, byte[] archivoBinario) throws Exception {
         BufferedReader fileReader = null;
-        listaErrores = new ArrayList<ErrorCampo>();
+        listaErrores = new ArrayList<>();
         ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
         try {
             InputStream is = new ByteArrayInputStream(archivoBinario);
@@ -238,10 +238,13 @@ public class ProcesadorCsv<T> {
 
         if (!configCampo.getConvercionClass().getSimpleName().equals("ConvertidorInterfaz")) {
             return UtilProcesador.parseStringToConvercionClass(configCampo.getConvercionClass(), valorStr);
-        } else {
-            return UtilProcesador.parsePrimitiveFromString(valorStr, configCampo.getTipoDato(),configCampo.getValidaciones().getFormatoFecha());
+
+        }else if (configCampo.getTipoDato().getSimpleName().toUpperCase().equals("DATE")) {
+            return UtilProcesador.parseDateFromString(valorStr, configCampo.getValidaciones().getFormatoFecha() );
+        }else
+         {
+            return UtilProcesador.parsePrimitiveFromString(valorStr, configCampo.getTipoDato());
         }
     }
-
 
 }

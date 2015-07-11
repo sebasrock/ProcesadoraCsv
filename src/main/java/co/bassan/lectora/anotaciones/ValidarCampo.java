@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Date;
 
 /**
  * Created by Sebastian Sanchez on 06/02/2015.
@@ -13,25 +14,54 @@ import java.lang.annotation.Target;
 public @interface ValidarCampo {
 
     /**
-     * Pattern that the formatter will use to transform the data (optional)
+     *  exprecion regular que debe cumplir el campo
+     * @return
      */
     String exprecion() default "";
 
     /**
-     * Length of the data block if the record is set to a fixed length
+     * Longitud maxima permitida para este campo
+     * @return
      */
     int longitudMaxima() default 0;
 
+    /**
+     * Longitud minima permitida para este campo
+     * @return
+     */
     int longitudMinima() default 0;
 
     /**
-     * Indicates if the field is mandatory
+     * Indica si el campo es obligatorio
+     * @return
      */
     boolean requirido() default false;
 
+    /**
+     * verifica que tenga valores prmitidos determinados
+     * @return
+     */
     String[] listaLimitante() default {};
 
-    String fromatoFecha() default "yyyy-MM-dd";
+
+    /**
+     * valida el formato de fecha
+     * @return
+     */
+    String formatoFecha() default "yyyy-MM-dd";
+
+    /**
+     * valida la fecha minima que puede ser ingresada
+     * @return
+     */
+    String fechaMinima() default "";
+
+    /**
+     * valida la fecha maxima que puede ser ingresada
+     * @return
+     */
+    String fechaMaxima() default "";
+
 
     /**
      * Field's default value in case no value is set

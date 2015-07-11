@@ -56,13 +56,13 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String fluorosisDental_28;
     @DatosCampo(posicion = 28)
-    @ValidarCampo(requirido = true, fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd")
     private Date fechaDelPeso_29;
     @DatosCampo(posicion = 29)
     @ValidarCampo(requirido = true)
     private Double pesoEnKg_30;
     @DatosCampo(posicion = 30)
-    @ValidarCampo(requirido = true, fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd")
     private Date fechaDeLaTalla_31;
     @DatosCampo(posicion = 31)
     @ValidarCampo(requirido = true)
@@ -117,10 +117,10 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String controlDePlacaBacteriana_48;
     @DatosCampo(posicion = 48)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaAtencionPartoOCesarea_49;
     @DatosCampo(posicion = 49)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaSalidaAtencionPartoOCesarea_50;
     @DatosCampo(posicion = 50)
     @ValidarCampo(requirido = true)
@@ -159,28 +159,28 @@ public class VariablesControlDto {
     // Variable 61: Suministro de Carbonato de Calcio en el último control prenatal
     private String suministroCarbonatoCalcioUltimoControlPrenatal_61;
     @DatosCampo(posicion = 61)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date valoracionAgudezaVisual_62;
     @DatosCampo(posicion = 62)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaPorOftalmologia_63;
     @DatosCampo(posicion = 63)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaDiagnosticoDesnutricionProteicoCalorica_64;
     @DatosCampo(posicion = 64)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaMujerOMenorVictimaDeMaltrato_65;
     @DatosCampo(posicion = 65)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaVictimasViolenciaSexual_66;
     @DatosCampo(posicion = 66)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaNutricion_67;
     @DatosCampo(posicion = 67)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaPsicologia_68;
     @DatosCampo(posicion = 68)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaCrecimientoDesarrollo_69;
     @DatosCampo(posicion = 69)
     @ValidarCampo(requirido = true)
@@ -189,38 +189,38 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String suministroVitaminaAUltimaConsultaMenor10Anos_71;
     @DatosCampo(posicion = 71)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaJovenOrimeraVez_72;
     @DatosCampo(posicion = 72)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date consultaAdultoPrimeraVez_73;
     @DatosCampo(posicion = 73)
     @ValidarCampo(requirido = true)
     private String preservativosEntregadosPacienteIts_74;
     @DatosCampo(posicion = 74)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date asesoriaPreTestVih_75;
     @DatosCampo(posicion = 75)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date asesoriaPostTestElisaVih_76;
     @DatosCampo(posicion = 76)
     @ValidarCampo(requirido = true)
     // Variable 77: Paciente con Diagnóstico de: Ansiedad, Depresión, Esquizofrenia, déficit de atención, consumo SPA y Bipolaridad recibió Atención en los últimos 6 meses por Equipo Interdisciplinario Completo.
     private String pacienteDiagnosticoUltimos6MesesEquipoInterCompleto_77;
     @DatosCampo(posicion = 77)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaAntigenoSuperficieHepatitisBenGestantes_78;
     @DatosCampo(posicion = 78)
     @ValidarCampo(requirido = true)
     private String resultadoAntigenoSuperficieHepatitisB_79;
     @DatosCampo(posicion = 79)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaSerologiaSifilis_80;
     @DatosCampo(posicion = 80)
     @ValidarCampo(requirido = true)
     private String resultadoSerologíaSífilis_81;
     @DatosCampo(posicion = 81)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaTomaElisaVIH_82;
     @DatosCampo(posicion = 82)
     @ValidarCampo(requirido = true)
@@ -247,13 +247,13 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String codigoHabilitacionIpsTomaCitologiaCervicoUterina_90;
     @DatosCampo(posicion = 90)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaColposcopia_91;
     @DatosCampo(posicion = 91)
     @ValidarCampo(requirido = true)
     private String codigoHabilitacionIpsTomaColposcopia_92;
     @DatosCampo(posicion = 92)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaBiopsiaCervical_93;
     @DatosCampo(posicion = 93)
     @ValidarCampo(requirido = true)
@@ -262,7 +262,7 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String codigoHabilitacionIpsTomaBiopsiaCervical_95;
     @DatosCampo(posicion = 95)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaDeMamografia_96;
     @DatosCampo(posicion = 96)
     @ValidarCampo(requirido = true)
@@ -271,10 +271,10 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String codigoHabilitacionIpsTomaMamografia_98;
     @DatosCampo(posicion = 98)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaTomaBiopsiaSenoPorBacaf_99;
     @DatosCampo(posicion = 99)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaResultadoBiopsiaSeno_100;
     @DatosCampo(posicion = 100)
     @ValidarCampo(requirido = true)
@@ -298,19 +298,19 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String Creatinina_107;
     @DatosCampo(posicion = 107)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaHemoglobinaGlicosilada_108;
     @DatosCampo(posicion = 108)
     @ValidarCampo(requirido = true)
     private String hemoglobinaGlicosilada_109;
     @DatosCampo(posicion = 109)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaTomaMicroalbuminuria_110;
     @DatosCampo(posicion = 110)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaTomaHDL_111;
     @DatosCampo(posicion = 111)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaTomaBaciloscopiaDiagnostico_112;
     @DatosCampo(posicion = 112)
     @ValidarCampo(requirido = true)
@@ -328,7 +328,7 @@ public class VariablesControlDto {
     @ValidarCampo(requirido = true)
     private String tratamientoLepra_117;
     @DatosCampo(posicion = 117)
-    @ValidarCampo(requirido = true,fromatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaTerminacionTratamientoLeishmaniasis_118;
 
     public String getGestacion_14() {

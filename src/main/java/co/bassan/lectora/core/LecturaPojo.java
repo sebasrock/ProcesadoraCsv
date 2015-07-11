@@ -115,7 +115,9 @@ public class LecturaPojo {
             configuracionCampo.getValidaciones().setLongitudMinima(validarCampo.longitudMinima());
             configuracionCampo.getValidaciones().setRequirido(validarCampo.requirido());
             configuracionCampo.getValidaciones().setListaLimitante(validarCampo.listaLimitante());
-            configuracionCampo.getValidaciones().setFormatoFecha(validarCampo.fromatoFecha());
+            configuracionCampo.getValidaciones().setFormatoFecha(validarCampo.formatoFecha());
+            configuracionCampo.getValidaciones().setFechaMinima(validarCampo.fechaMinima());
+            configuracionCampo.getValidaciones().setFechaMaxima(validarCampo.fechaMaxima());
         }
     }
 

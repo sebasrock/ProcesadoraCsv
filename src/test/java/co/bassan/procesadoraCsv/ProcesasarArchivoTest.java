@@ -1,6 +1,7 @@
 package co.bassan.procesadoraCsv;
 
 import co.bassan.lectora.core.ProcesadorCsv;
+import co.bassan.lectora.model.ErrorCampo;
 import co.bassan.lectora.model.ResultadoCargue;
 import co.bassan.procesadoraCsv.DTOTest.ArchivoDto;
 import co.bassan.procesadoraCsv.DTOTest.VariablesControlDto;
@@ -126,8 +127,41 @@ public class ProcesasarArchivoTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
+    }
 
 
+    @Test
+    public void probarValidacionDeFechasMiniamasExitosa(){
+        try {
+            // Dado
+            ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
+
+            // Cuando
+            ResultadoCargue<ArchivoDto> resultadoCargue = csv.transformarCsvObjeto(ArchivoDto.class, PATH_FILE);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados().get(0).getRegistroControl().getFechaInicialPeriodoReportado()).isEqualTo(new Date("2015/02/27"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void probarValidacionDeFechasMiniamasErronea(){
+        try {
+            // Dado
+            ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
+
+            // Cuando
+            ResultadoCargue<ArchivoDto> resultadoCargue = csv.transformarCsvObjeto(ArchivoDto.class, PATH_FILE);
+
+            // Entonces
+            assertThat(resultadoCargue.getErroresEcontrados()).extracting("causa").contains("fecha es mayor a la permitida , Fecha maxima :");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
     }
 
 
