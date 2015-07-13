@@ -57,7 +57,9 @@ public class ProcesadorCsv<T> {
     }
 
     public BufferedOutputStream transformarObjetoCsv(List<T> tList, String rutaCsv) throws Exception {
-        if (tList != null && tList.size() > 0) {
+        if (tList != null && tList.size() > 0)
+        {
+
             BufferedOutputStream bufferedOutput = new BufferedOutputStream(new FileOutputStream(rutaCsv));
             ConfiguracionCarga configuracionCarga = obtenerConfiguracion((Class<T>) tList.get(0).getClass(),Boolean.FALSE);
             Collections.sort(configuracionCarga.getConfigCampos(), new Comparator<ConfiguracionCampo>() {
@@ -85,6 +87,44 @@ public class ProcesadorCsv<T> {
         }
         return null;
     }
+
+
+
+    public ByteArrayOutputStream transformarObjetoCsv(List<T> tList) throws Exception {
+        if (tList != null && tList.size() > 0)
+        {
+
+            try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                 PrintWriter pw = new PrintWriter(out)) {
+                ConfiguracionCarga configuracionCarga = obtenerConfiguracion((Class<T>) tList.get(0).getClass(),Boolean.FALSE);
+                Collections.sort(configuracionCarga.getConfigCampos(), new Comparator<ConfiguracionCampo>() {
+                    public int compare(ConfiguracionCampo confCamp1, ConfiguracionCampo confCamp2) {
+                        if (confCamp1.getPosicion() > confCamp2.getPosicion())
+                            return 1;
+                        else if (confCamp1.getPosicion() < confCamp2.getPosicion())
+                            return -1;
+                        else if (confCamp1.getPosicion() == confCamp2.getPosicion())
+                            return 0;
+                        return 0;
+                    }
+                });
+                UtilProcesador.imprimirCabecera(pw, configuracionCarga.getConfigCampos());
+                for (T tClass : tList) {
+                    for (ConfiguracionCampo configuracionCampo : configuracionCarga.getConfigCampos()) {
+
+                        Method method =tClass.getClass().getMethod(configuracionCampo.getGetNombreCampo(),null);
+                        pw.println((method.invoke(tClass, null) + ",").getBytes());
+                    }
+                    pw.println("\n".getBytes());
+                }
+                pw.flush();
+                return out;
+            }
+
+        }
+        return null;
+    }
+
 
     private List<T> preparacionLecuraConfiguraciones(BufferedReader fileReader, Class<T> pojo) throws Exception {
         List<T> lista = new ArrayList<T>();

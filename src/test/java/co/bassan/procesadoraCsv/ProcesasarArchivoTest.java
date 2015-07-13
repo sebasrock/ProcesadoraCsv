@@ -11,6 +11,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -119,10 +120,12 @@ public class ProcesasarArchivoTest {
             lista.add(myPojo4);
 
             // Cuando
-            BufferedOutputStream resultadoCargue = csv.transformarObjetoCsv(lista,PATH_FILE2);
+//            ByteArrayOutputStream resultadoCargue = csv.transformarObjetoCsv(lista);
+
+            BufferedOutputStream resultadoCargue = csv.transformarObjetoCsv(lista, PATH_FILE2);
 
             // Entonces
-//            assertThat(resultadoCargue.getElementosCargados().get(0).getRegistroControl().getFechaFinalPeriodoReportado()).isNull();
+            assertThat(resultadoCargue).isNotNull();
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());

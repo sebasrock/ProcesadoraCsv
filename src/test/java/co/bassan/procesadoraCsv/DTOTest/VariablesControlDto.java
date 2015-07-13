@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class VariablesControlDto {
 
-    @DatosCampo(posicion = 13)
+    @DatosCampo(posicion = 13, nombre = " GESTACION 14 ")
     @ValidarCampo(requirido = true)
     private String gestacion_14;
     @DatosCampo(posicion = 14)

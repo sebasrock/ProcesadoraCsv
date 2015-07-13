@@ -7,6 +7,7 @@ import co.bassan.lectora.model.TypesEnum;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,12 +24,24 @@ public class UtilProcesador {
         StringBuilder cabecera = new StringBuilder();
 
         for (ConfiguracionCampo configuracionCampo : configuracionCarga) {
-            cabecera.append(configuracionCampo.getNombreCampo());
+            cabecera.append(configuracionCampo.getNombreCampoArchivo());
             cabecera.append(",");
         }
 
         cabecera.replace(cabecera.length() - 1, cabecera.length(), "\n");
         bufferedOutput.write(cabecera.toString().getBytes());
+    }
+
+    public static void imprimirCabecera(PrintWriter pw, List<ConfiguracionCampo> configuracionCarga) throws IOException {
+        StringBuilder cabecera = new StringBuilder();
+
+        for (ConfiguracionCampo configuracionCampo : configuracionCarga) {
+            cabecera.append(configuracionCampo.getNombreCampo());
+            cabecera.append(",");
+        }
+
+        cabecera.replace(cabecera.length() - 1, cabecera.length(), "\n");
+        pw.println(cabecera.toString().getBytes());
     }
 
     static String[] separacionLinea(String line, String separador) {
