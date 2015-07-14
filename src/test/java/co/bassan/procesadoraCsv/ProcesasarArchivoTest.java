@@ -5,6 +5,7 @@ import co.bassan.lectora.model.ErrorCampo;
 import co.bassan.lectora.model.ResultadoCargue;
 import co.bassan.procesadoraCsv.DTOTest.ArchivoDto;
 import co.bassan.procesadoraCsv.DTOTest.VariablesControlDto;
+import co.bassan.procesadoraCsv.DTOTest.VariablesControlDto2;
 import org.junit.Assert;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -12,6 +13,8 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,9 +31,8 @@ public class ProcesasarArchivoTest {
     private static final String PATH_FILE2 = "/home/sebas/Documentos/qaz.txt";
 
 
-
     @Test
-    public void probarCargaRegistroControlExitosa(){
+    public void probarCargaRegistroControlExitosa() {
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
@@ -48,7 +50,7 @@ public class ProcesasarArchivoTest {
     }
 
     @Test
-    public void probarCargaConsolidadoExitosa(){
+    public void probarCargaConsolidadoExitosa() {
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
@@ -66,7 +68,7 @@ public class ProcesasarArchivoTest {
     }
 
     @Test
-    public void probarCargaRegistroControlErrorFecha(){
+    public void probarCargaRegistroControlErrorFecha() {
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
@@ -83,7 +85,7 @@ public class ProcesasarArchivoTest {
     }
 
     @Test
-    public void probarCargaConsolidadoExitosaFechas(){
+    public void probarCargaConsolidadoExitosaFechas() {
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
@@ -102,11 +104,11 @@ public class ProcesasarArchivoTest {
 
 
     @Test
-    public void probarGeneracionArchivoCsv(){
+    public void probarGeneracionArchivoCsv() {
         try {
             // Dado
             PodamFactory factory = new PodamFactoryImpl();
-            ProcesadorCsv<VariablesControlDto> csv = new ProcesadorCsv<VariablesControlDto>();
+            ProcesadorCsv<VariablesControlDto> csv = new ProcesadorCsv<>();
 
             List<VariablesControlDto> lista = new ArrayList<>();
 
@@ -120,9 +122,11 @@ public class ProcesasarArchivoTest {
             lista.add(myPojo4);
 
             // Cuando
-//            ByteArrayOutputStream resultadoCargue = csv.transformarObjetoCsv(lista);
+            ByteArrayOutputStream resultadoCargue = csv.transformarObjetoCsv(lista);
 
-            BufferedOutputStream resultadoCargue = csv.transformarObjetoCsv(lista, PATH_FILE2);
+            OutputStream outputStream = new FileOutputStream(PATH_FILE2);
+            resultadoCargue.writeTo(outputStream);
+//            BufferedOutputStream resultadoCargue = csv.transformarObjetoCsv(lista, PATH_FILE2);
 
             // Entonces
             assertThat(resultadoCargue).isNotNull();
@@ -134,7 +138,7 @@ public class ProcesasarArchivoTest {
 
 
     @Test
-    public void probarValidacionDeFechasMiniamasExitosa(){
+    public void probarValidacionDeFechasMiniamasExitosa() {
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();
@@ -151,7 +155,7 @@ public class ProcesasarArchivoTest {
     }
 
     @Test
-    public void probarValidacionDeFechasMiniamasErronea(){
+    public void probarValidacionDeFechasMiniamasErronea() {
         try {
             // Dado
             ProcesadorCsv<ArchivoDto> csv = new ProcesadorCsv<ArchivoDto>();

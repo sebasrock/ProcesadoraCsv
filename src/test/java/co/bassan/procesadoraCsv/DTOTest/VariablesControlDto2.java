@@ -1,6 +1,5 @@
 package co.bassan.procesadoraCsv.DTOTest;
 
-import co.bassan.lectora.anotaciones.DatosArchivo;
 import co.bassan.lectora.anotaciones.DatosCampo;
 import co.bassan.lectora.anotaciones.ValidarCampo;
 
@@ -9,151 +8,54 @@ import java.util.Date;
 /**
  * Created by sebas on 19/04/15.
  */
-@DatosArchivo(saltarPrimeraLinea = false,separador = "|", cantidadRegistros = 300000)
-public class VariablesControlDto {
+public class VariablesControlDto2 extends  PersonaDto{
 
-    @DatosCampo(posicion = 13, nombre = " GESTACION 14 ")
-    @ValidarCampo(requirido = true)
     private String gestacion_14;
-    @DatosCampo(posicion = 14)
-    @ValidarCampo(requirido = true)
     private String sifilisGestacionalOCongenita_15;
-    @DatosCampo(posicion = 15)
-    @ValidarCampo(requirido = true)
     private String hipertencionInducidaPorLaGestacion_16;
-    @DatosCampo(posicion = 16)
-    @ValidarCampo(requirido = true)
     private String hipotiroidismoCongenito_17;
-    @DatosCampo(posicion = 17)
-    @ValidarCampo(requirido = true)
     private String sintomaticoRespiratorio_18;
-    @DatosCampo(posicion = 18)
-    @ValidarCampo(requirido = true)
     private String tbcMultidrogoresistente_19;
-    @DatosCampo(posicion = 19)
-    @ValidarCampo(requirido = true)
     private String lepra_20;
-    @DatosCampo(posicion = 20)
-    @ValidarCampo(requirido = true)
     private String obesidadODesnutricionProteicoCalorica_21;
-    @DatosCampo(posicion = 21)
-    @ValidarCampo(requirido = true)
     private String victimaDeMaltrato_22;
-    @DatosCampo(posicion = 22)
-    @ValidarCampo(requirido = true)
     private String victimasDeViolenciaSexual_23;
-    @DatosCampo(posicion = 23)
-    @ValidarCampo(requirido = true)
     private String infeccionesDeTransmisionSexual_24;
-    @DatosCampo(posicion = 24)
-    @ValidarCampo(requirido = true)
     private String enfermedadMental_25;
-    @DatosCampo(posicion = 25)
-    @ValidarCampo(requirido = true)
     private String cancerDeCervix_26;
-    @DatosCampo(posicion = 26)
-    @ValidarCampo(requirido = true)
     private String cancerDeSeno_27;
-    @DatosCampo(posicion = 27)
-    @ValidarCampo(requirido = true)
     private String fluorosisDental_28;
-    @DatosCampo(posicion = 28)
-    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd")
     private Date fechaDelPeso_29;
-    @DatosCampo(posicion = 29)
-    @ValidarCampo(requirido = true)
     private Double pesoEnKg_30;
-    @DatosCampo(posicion = 30)
-    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd")
     private Date fechaDeLaTalla_31;
-    @DatosCampo(posicion = 31)
-    @ValidarCampo(requirido = true)
     private Double tallaEnCm_32;
-    @DatosCampo(posicion = 32)
-    @ValidarCampo(requirido = true)
     private String fechaProbableDelParto_33;
-    @DatosCampo(posicion = 33)
-    @ValidarCampo(requirido = true)
     private String edadGestacionalAlNacer_34;
-    @DatosCampo(posicion = 34)
-    @ValidarCampo(requirido = true)
     private String bcg_35;
-    @DatosCampo(posicion = 35)
-    @ValidarCampo(requirido = true)
     private String hepatitisBMenoresDe1Ano_36;
-    @DatosCampo(posicion = 36)
-    @ValidarCampo(requirido = true)
     private String pentavelente_37;
-    @DatosCampo(posicion = 37)
-    @ValidarCampo(requirido = true)
     private String polio_38;
-    @DatosCampo(posicion = 38)
-    @ValidarCampo(requirido = true)
     private String dptMenoresDe5Anos_39;
-    @DatosCampo(posicion = 39)
-    @ValidarCampo(requirido = true)
     private String rotavirus_40;
-    @DatosCampo(posicion = 40 )
-    @ValidarCampo(requirido = true)
     private String neumococo_41;
-    @DatosCampo(posicion = 41)
-    @ValidarCampo(requirido = true)
     private String influenzaNinos_42;
-    @DatosCampo(posicion = 42)
-    @ValidarCampo(requirido = true)
     private String fiebreAmarillaNinos1Ano_43;
-    @DatosCampo(posicion = 43)
-    @ValidarCampo(requirido = true)
     private String hepatitisA_44;
-    @DatosCampo(posicion = 44)
-    @ValidarCampo(requirido = true)
     private String tripleViralNinos_45;
-    @DatosCampo(posicion = 45)
-    @ValidarCampo(requirido = true)
     private String virusDelPapilomaHumano_46;
-    @DatosCampo(posicion = 46)
-    @ValidarCampo(requirido = true)
-    // Variable 47: TD o TT mujeres en edad fértil 15 a 49 años
     private String tdOTtMujeresEdadFertil_47;
-    @DatosCampo(posicion = 47)
-    @ValidarCampo(requirido = true)
     private String controlDePlacaBacteriana_48;
-    @DatosCampo(posicion = 48)
-    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaAtencionPartoOCesarea_49;
-    @DatosCampo(posicion = 49)
-    @ValidarCampo(requirido = true,formatoFecha = "yyyy-MM-dd")
     private Date fechaSalidaAtencionPartoOCesarea_50;
-    @DatosCampo(posicion = 50)
-    @ValidarCampo(requirido = true)
     private String fechaConsejeriaLactanciaMaterna_51;
-    @DatosCampo(posicion = 51)
-    @ValidarCampo(requirido = true)
     private String controlDelRecienNacido_52;
-    @DatosCampo(posicion = 52)
-    @ValidarCampo(requirido = true)
     private String planificacionFaminiarPrimerVez_53;
-    @DatosCampo(posicion = 53)
-    @ValidarCampo(requirido = true)
     private String suministroDeMetodoAnticonceptivo_54;
-    @DatosCampo(posicion = 54)
-    @ValidarCampo(requirido = true)
     private String fechaSuministroMetodoAnticonceptivo_55;
-    @DatosCampo(posicion = 55)
-    @ValidarCampo(requirido = true)
     private String controlPrenatalPrimeraVez_56;
-    @DatosCampo(posicion = 56)
-    @ValidarCampo(requirido = true)
     private String controlPrenatal_57;
-    @DatosCampo(posicion = 57)
-    @ValidarCampo(requirido = true)
     private String ultimoControlPrenatal_58;
-    @DatosCampo(posicion = 58)
-    @ValidarCampo(requirido = true)
-    // Variable 59: Suministro de ácido fólico en el último control prenatal
     private String suministroDeAcidoFolicoUltimoControlPrenatal_59;
-    @DatosCampo(posicion = 59)
-    @ValidarCampo(requirido = true)
     // Variable 60: Suministro de Sulfato ferroso en el último control prenatal
     private String suministroSulfatoFerrosoUltimoControlPrenatal_60;
     @DatosCampo(posicion = 60)

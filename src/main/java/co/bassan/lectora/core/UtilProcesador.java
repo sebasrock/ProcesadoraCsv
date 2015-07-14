@@ -24,7 +24,11 @@ public class UtilProcesador {
         StringBuilder cabecera = new StringBuilder();
 
         for (ConfiguracionCampo configuracionCampo : configuracionCarga) {
-            cabecera.append(configuracionCampo.getNombreCampoArchivo());
+            if(configuracionCampo.getNombreCampoArchivo()!=null && !configuracionCampo.getNombreCampoArchivo().isEmpty()) {
+                cabecera.append(configuracionCampo.getNombreCampoArchivo());
+            }else {
+                cabecera.append(configuracionCampo.getNombreCampo());
+            }
             cabecera.append(",");
         }
 
@@ -32,16 +36,16 @@ public class UtilProcesador {
         bufferedOutput.write(cabecera.toString().getBytes());
     }
 
-    public static void imprimirCabecera(PrintWriter pw, List<ConfiguracionCampo> configuracionCarga) throws IOException {
+    public static void imprimirCabecera(PrintWriter pw, List<ConfiguracionCampo> configuracionCarga, String separador) throws IOException {
         StringBuilder cabecera = new StringBuilder();
 
         for (ConfiguracionCampo configuracionCampo : configuracionCarga) {
             cabecera.append(configuracionCampo.getNombreCampo());
-            cabecera.append(",");
+            cabecera.append(separador);
         }
 
-        cabecera.replace(cabecera.length() - 1, cabecera.length(), "\n");
-        pw.println(cabecera.toString().getBytes());
+        cabecera.replace(cabecera.length() - 1, cabecera.length(), "");
+        pw.println(cabecera.toString());
     }
 
     static String[] separacionLinea(String line, String separador) {
