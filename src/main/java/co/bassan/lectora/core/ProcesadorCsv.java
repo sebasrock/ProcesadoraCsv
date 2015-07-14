@@ -6,11 +6,11 @@ import co.bassan.lectora.model.ErrorCampo;
 import co.bassan.lectora.model.ResultadoCargue;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Sebastian- on 08/02/2015.
@@ -23,7 +23,7 @@ public class ProcesadorCsv<T> {
 
     public ResultadoCargue<T> transformarCsvObjeto(Class<T> pojo, String rutaCsv) throws Exception {
         BufferedReader fileReader = null;
-        listaErrores = new ArrayList<ErrorCampo>();
+        listaErrores = new ArrayList<>();
         ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
         try {
             fileReader = obtenerArchivo(rutaCsv);
@@ -41,7 +41,7 @@ public class ProcesadorCsv<T> {
 
     public ResultadoCargue<T> transformarCsvObjeto(Class<T> pojo, byte[] archivoBinario) throws Exception {
         BufferedReader fileReader = null;
-        listaErrores = new ArrayList<ErrorCampo>();
+        listaErrores = new ArrayList<>();
         ResultadoCargue<T> resultadoCargue = new ResultadoCargue<T>();
         try {
             InputStream is = new ByteArrayInputStream(archivoBinario);
@@ -57,6 +57,86 @@ public class ProcesadorCsv<T> {
         }
 
     }
+
+    public BufferedOutputStream transformarObjetoCsv(List<T> tList, String rutaCsv) throws Exception {
+        if (tList != null && tList.size() > 0) {
+
+            BufferedOutputStream bufferedOutput = new BufferedOutputStream(new FileOutputStream(rutaCsv));
+            ConfiguracionCarga configuracionCarga = obtenerConfiguracion((Class<T>) tList.get(0).getClass(), Boolean.FALSE);
+            ordenarCampos(configuracionCarga);
+            UtilProcesador.imprimirCabecera(bufferedOutput, configuracionCarga.getConfigCampos());
+            for (T tClass : tList) {
+                for (ConfiguracionCampo configuracionCampo : configuracionCarga.getConfigCampos()) {
+                    if (configuracionCampo.getGetNombreCampo() != null && !configuracionCampo.getGetNombreCampo().isEmpty()) {
+                        Method method = tClass.getClass().getMethod(configuracionCampo.getGetNombreCampo(), null);
+                        bufferedOutput.write((method.invoke(tClass, null) + ",").getBytes());
+                    }
+                }
+                bufferedOutput.write("\n".getBytes());
+            }
+            bufferedOutput.close();
+            return bufferedOutput;
+        }
+        return null;
+    }
+
+
+    public ByteArrayOutputStream transformarObjetoCsv(List<T> tList) throws Exception {
+        if (tList != null && tList.size() > 0) {
+
+            try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                 PrintWriter pw = new PrintWriter(out)) {
+                ConfiguracionCarga configuracionCarga = obtenerConfiguracion((Class<T>) tList.get(0).getClass(), Boolean.FALSE);
+                ordenarCampos(configuracionCarga);
+                if(!configuracionCarga.isSaltarPrimeraLinea()) {
+                    UtilProcesador.imprimirCabecera(pw, configuracionCarga.getConfigCampos(),configuracionCarga.getSeparador());
+                }
+                for (T tClass : tList) {
+                    for (ConfiguracionCampo configuracionCampo : configuracionCarga.getConfigCampos()) {
+                        escribirContenido(pw, tClass, configuracionCampo,configuracionCarga.getSeparador());
+                    }
+                    pw.print("\n");
+                }
+                pw.flush();
+                return out;
+            }
+
+        }
+        return null;
+    }
+
+    private void escribirContenido(PrintWriter pw, T tClass, ConfiguracionCampo configuracionCampo, String separador) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        try {
+            if (configuracionCampo.getGetNombreCampo() != null && !configuracionCampo.getGetNombreCampo().isEmpty()) {
+                SimpleDateFormat formato = new SimpleDateFormat(configuracionCampo.getValidaciones().getFormatoFecha());
+                Method method = tClass.getClass().getMethod(configuracionCampo.getGetNombreCampo(), null);
+                Object valor = method.invoke(tClass, null);
+                if(configuracionCampo.getTipoDato().getSimpleName().toUpperCase().equals("DATE")){
+                    pw.print(formato.format(valor) + separador);
+                }else {
+
+                    pw.print(valor + separador);
+                }
+            }
+        } catch (NoSuchMethodException e) {
+            pw.print("");
+        }
+    }
+
+    private void ordenarCampos(ConfiguracionCarga configuracionCarga) {
+        Collections.sort(configuracionCarga.getConfigCampos(), new Comparator<ConfiguracionCampo>() {
+            public int compare(ConfiguracionCampo confCamp1, ConfiguracionCampo confCamp2) {
+                if (confCamp1.getPosicion() > confCamp2.getPosicion())
+                    return 1;
+                else if (confCamp1.getPosicion() < confCamp2.getPosicion())
+                    return -1;
+                else if (confCamp1.getPosicion() == confCamp2.getPosicion())
+                    return 0;
+                return 0;
+            }
+        });
+    }
+
 
     private List<T> preparacionLecuraConfiguraciones(BufferedReader fileReader, Class<T> pojo) throws Exception {
         List<T> lista = new ArrayList<T>();
@@ -93,8 +173,8 @@ public class ProcesadorCsv<T> {
                     campos = Arrays.copyOfRange(campos, 1, campos.length);
                 }
 
-                if(lineAnterior!=null){
-                    lineContinuacion=null;
+                if (lineAnterior != null) {
+                    lineContinuacion = null;
                 }
             }
         }
@@ -129,8 +209,8 @@ public class ProcesadorCsv<T> {
                 try {
                     almacenamientoObjetoBasico(campos, objeto, configCampo);
                     listaErrores.addAll(EjecutorValidaciones.getIntancia(configCampo, cantidadCampos, fila, campos.length).ejecutor());
-                }catch (Exception e){
-                    UtilProcesador.adicionarError(listaErrores,fila,e,configCampo);
+                } catch (Exception e) {
+                    UtilProcesador.adicionarError(listaErrores, fila, e, configCampo);
                 }
             }
 
@@ -210,10 +290,12 @@ public class ProcesadorCsv<T> {
 
         if (!configCampo.getConvercionClass().getSimpleName().equals("ConvertidorInterfaz")) {
             return UtilProcesador.parseStringToConvercionClass(configCampo.getConvercionClass(), valorStr);
+
+        } else if (configCampo.getTipoDato().getSimpleName().toUpperCase().equals("DATE")) {
+            return UtilProcesador.parseDateFromString(valorStr, configCampo.getValidaciones().getFormatoFecha());
         } else {
-            return UtilProcesador.parsePrimitiveFromString(valorStr, configCampo.getTipoDato(),configCampo.getValidaciones().getFormatoFecha());
+            return UtilProcesador.parsePrimitiveFromString(valorStr, configCampo.getTipoDato());
         }
     }
-
 
 }

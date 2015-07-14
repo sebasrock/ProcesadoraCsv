@@ -3,18 +3,55 @@ package co.bassan.lectora.model;
 public class ConfiguracionValidaciones {
 
 
-    private String exprecion;
+    /**
+     *  exprecion regular que debe cumplir el campo
+     * @return
+     */
+    String exprecion;
 
-    private int longitudMaxima;
+    /**
+     * Longitud maxima permitida para este campo
+     * @return
+     */
+    int longitudMaxima;
 
-    private int longitudMinima;
+    /**
+     * Longitud minima permitida para este campo
+     * @return
+     */
+    int longitudMinima;
 
-    private boolean requirido;
+    /**
+     * Indica si el campo es obligatorio
+     * @return
+     */
+    boolean requirido;
 
-    private String[] listaLimitante;
+    /**
+     * verifica que tenga valores prmitidos determinados
+     * @return
+     */
+    String[] listaLimitante;
 
 
-    private String formatoFecha;
+    /**
+     * valida el formato de fecha
+     * @return
+     */
+    String formatoFecha;
+
+    /**
+     * valida la fecha minima que puede ser ingresada
+     * @return
+     */
+    String fechaMinima;
+
+    /**
+     * valida la fecha maxima que puede ser ingresada
+     * @return
+     */
+    String fechaMaxima;
+
 
     public String getFormatoFecha() {
         return formatoFecha;
@@ -62,6 +99,22 @@ public class ConfiguracionValidaciones {
 
     public void setListaLimitante(String[] listaLimitante) {
         this.listaLimitante = listaLimitante;
+    }
+
+    public String getFechaMinima() {
+        return fechaMinima;
+    }
+
+    public void setFechaMinima(String fechaMinima) {
+        this.fechaMinima = fechaMinima;
+    }
+
+    public String getFechaMaxima() {
+        return fechaMaxima;
+    }
+
+    public void setFechaMaxima(String fechaMaxima) {
+        this.fechaMaxima = fechaMaxima;
     }
 
     public ConfiguracionValidaciones() {

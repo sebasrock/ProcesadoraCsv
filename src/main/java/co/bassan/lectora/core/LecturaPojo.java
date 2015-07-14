@@ -7,6 +7,7 @@ import co.bassan.lectora.model.ConfiguracionCarga;
 import co.bassan.lectora.model.ConfiguracionValidaciones;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,10 @@ public class LecturaPojo {
 
     private List<ConfiguracionCampo> obtenerConfCampo() {
 
-        Field[] fields = pojoClass.getDeclaredFields();
-        List<ConfiguracionCampo> listaConf = new ArrayList<ConfiguracionCampo>(fields.length);
+        List<Field> fields = getPrivateFields(pojoClass);
+
+
+        List<ConfiguracionCampo> listaConf = new ArrayList<ConfiguracionCampo>(fields.size());
 
         if (fields == null) {
             return null;
@@ -95,9 +98,9 @@ public class LecturaPojo {
 
     public void leerAnotacionDatosCampo(Field field, ConfiguracionCampo configuracionCampo) {
         DatosCampo datos = field.getAnnotation(DatosCampo.class);
+        configuracionCampo.setNombreCampo(field.getName());
+        configuracionCampo.setTipoDato(field.getType());
         if (datos != null) {
-            configuracionCampo.setNombreCampo(field.getName());
-            configuracionCampo.setTipoDato(field.getType());
             configuracionCampo.setNombreCampoArchivo((datos.nombre() != null) ? datos.nombre() : "");
             configuracionCampo.setPosicion(datos.posicion());
             configuracionCampo.setTrim(datos.trim());
@@ -115,8 +118,23 @@ public class LecturaPojo {
             configuracionCampo.getValidaciones().setLongitudMinima(validarCampo.longitudMinima());
             configuracionCampo.getValidaciones().setRequirido(validarCampo.requirido());
             configuracionCampo.getValidaciones().setListaLimitante(validarCampo.listaLimitante());
-            configuracionCampo.getValidaciones().setFormatoFecha(validarCampo.fromatoFecha());
+            configuracionCampo.getValidaciones().setFormatoFecha(validarCampo.formatoFecha());
+            configuracionCampo.getValidaciones().setFechaMinima(validarCampo.fechaMinima());
+            configuracionCampo.getValidaciones().setFechaMaxima(validarCampo.fechaMaxima());
         }
+    }
+
+    public static List<Field> getPrivateFields(Class<?> theClass){
+        List<Field> privateFields = new ArrayList<Field>();
+
+        Field[] fields = theClass.getDeclaredFields();
+
+        for(Field field:fields){
+            if(Modifier.isPrivate(field.getModifiers())){
+                privateFields.add(field);
+            }
+        }
+        return privateFields;
     }
 
 }
