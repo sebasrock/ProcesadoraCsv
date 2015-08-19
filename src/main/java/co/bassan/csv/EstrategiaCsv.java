@@ -196,8 +196,8 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
     }
 
     private void setearValorMetodo(Method lMethod, String[] campos, InfCampo infCampo, T objeto) throws Exception {
-        Object valor = recuperarValor(infCampo, campos);
         infCampo.setValor(campos[infCampo.getPosicion()]);
+        Object valor = recuperarValor(infCampo, campos);
 //        System.out.println("Valor : " + infCampo.getValor());
 
         lMethod.invoke(objeto, valor);
