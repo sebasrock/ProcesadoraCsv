@@ -18,7 +18,7 @@ public class TestNietoOneToMany3Nivel implements Serializable {
     @DatosCampo(posicion = 1)
     private String codigo;
     @DatosCampo(posicion = 2)
-    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd", fechaMinima = "1900-01-01")
+    @ValidarCampo(formatoFecha = "yyyy-MM-dd")
     private Date fecha;
 
     public String getCodigo() {

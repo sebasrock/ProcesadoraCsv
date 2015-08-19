@@ -4,6 +4,7 @@ import co.bassan.general.model.ErrorCampo;
 import co.bassan.general.model.InfoArchivo;
 import co.bassan.general.model.ResultadoCargue;
 import co.bassan.excepciones.CargueCsvExcepcion;
+import co.bassan.general.util.LeerAnotacionesArchivo;
 
 import java.io.*;
 import java.util.List;

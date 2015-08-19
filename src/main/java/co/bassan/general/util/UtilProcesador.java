@@ -1,4 +1,4 @@
-package co.bassan.general;
+package co.bassan.general.util;
 
 
 import co.bassan.general.model.ErrorCampo;
@@ -40,7 +40,7 @@ public class UtilProcesador {
     }
 
     public static Object parsePrimitiveFromString(String valorStr, Class<?> tipoDato) throws Exception {
-        return TypesEnum.parseObjectFromString(valorStr, tipoDato);
+            return TypesEnum.parseObjectFromString(valorStr, tipoDato);
     }
 
     public static Object parseDateFromString(String valor, String formatoFecha) throws Exception {
@@ -77,11 +77,6 @@ public class UtilProcesador {
         return valorStr;
     }
 
-
-    public static <T> List<T> createListOfType(Class<T> type) {
-        return new ArrayList<T>();
-    }
-
     public static void adicionarError(List<ErrorCampo> listaErrores, int fila, Exception e, int posicion , Object valor) {
         ErrorCampo errorCampo = new ErrorCampo(fila, posicion, e.getMessage(), valor);
         listaErrores.add(errorCampo);
@@ -98,5 +93,10 @@ public class UtilProcesador {
         Class[] cArg = new Class[1];
         cArg[0] = tipoDato;
         return objeto.getClass().getMethod(setNombreCampo, cArg);
+    }
+
+    public static void adicionarError(List<ErrorCampo> listaErrores, int fila, int posicion, String mensaje, Object valor) {
+        ErrorCampo errorCampo = new ErrorCampo(fila, posicion, mensaje, valor);
+        listaErrores.add(errorCampo);
     }
 }

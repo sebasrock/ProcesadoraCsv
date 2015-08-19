@@ -1,7 +1,7 @@
 package co.bassan.csv;
 
 import co.bassan.excepciones.CargueCsvExcepcion;
-import co.bassan.general.UtilProcesador;
+import co.bassan.general.util.UtilProcesador;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -155,6 +155,12 @@ public class CSVRowIterator implements Iterator<String[]> {
     public void devolver() {
         lineBuffer.add(lineBufferBefore);
         verificaCambioEstructura(lineBufferBefore);
+        decremetaRowCount();
+    }
+
+    private int decremetaRowCount() {
+        rowCount--;
+        return getRowCount();
     }
 
     public BufferedReader getReader() {

@@ -14,16 +14,14 @@ import java.util.Date;
 public class TestHijoOneToOne implements Serializable {
 
     @DatosCampo(posicion = 1, trim = true)
-    @ValidarCampo(requirido = true)
     private String codigoEPS;
     @DatosCampo(posicion = 2, trim = true)
-    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd", fechaMinima = "1900-01-01")
+    @ValidarCampo( formatoFecha = "yyyy-MM-dd")
     private Date fechaInicialPeriodoReportado;
     @DatosCampo(posicion = 3, trim = true)
-    @ValidarCampo(requirido = true, formatoFecha = "yyyy-MM-dd", fechaMaxima = "2015-01-01")
+    @ValidarCampo(formatoFecha = "yyyy-MM-dd")
     private Date fechaFinalPeriodoReportado;
     @DatosCampo(posicion = 4, trim = true)
-    @ValidarCampo(requirido = true)
     private int numeroRegistroArchivo;
 
 

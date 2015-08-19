@@ -1,6 +1,6 @@
 package co.bassan.anotaciones;
 
-import co.bassan.general.ConversionPersonal;
+import co.bassan.general.util.ConversionPersonal;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

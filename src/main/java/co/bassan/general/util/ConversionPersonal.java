@@ -1,4 +1,4 @@
-package co.bassan.general;
+package co.bassan.general.util;
 
 /**
  * Created by Sebastian Sanchez on 12/02/2015.

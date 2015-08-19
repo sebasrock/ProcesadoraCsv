@@ -13,21 +13,22 @@ import java.util.List;
  * Created by sebas on 24/04/15.
  */
 @DatosArchivo(separador = "|", cantidadColumnas = 5 , multiEstructura = true)
-public class TestDtoOneToMany3Nivel implements Serializable {
+public class TestDtoOneToManyRequerido implements Serializable {
 
     @DatosCampo(posicion = 1, trim = true)
     private String codigoEPS;
     @DatosCampo(posicion = 2, trim = true)
-    @ValidarCampo( formatoFecha = "yyyy-MM-dd")
+    @ValidarCampo(formatoFecha = "yyyy-MM-dd")
     private Date fechaInicialPeriodoReportado;
     @DatosCampo(posicion = 3, trim = true)
     @ValidarCampo(formatoFecha = "yyyy-MM-dd")
     private Date fechaFinalPeriodoReportado;
     @DatosCampo(posicion = 4, trim = true)
+    @ValidarCampo(requirido = true)
     private int numeroRegistroArchivo;
 
     @OneToMany(palabraResevada = "2")
-    private List<TestHijoOneToMany3Nivel> testHijoOneToManies;
+    private List<TestHijoOneToManyRequerido> testHijoOneToManies;
 
     public String getCodigoEPS() {
         return codigoEPS;
@@ -61,11 +62,22 @@ public class TestDtoOneToMany3Nivel implements Serializable {
         this.numeroRegistroArchivo = numeroRegistroArchivo;
     }
 
-    public List<TestHijoOneToMany3Nivel> getTestHijoOneToManies() {
+    public List<TestHijoOneToManyRequerido> getTestHijoOneToManies() {
         return testHijoOneToManies;
     }
 
-    public void setTestHijoOneToManies(List<TestHijoOneToMany3Nivel> testHijoOneToManies) {
+    public void setTestHijoOneToManies(List<TestHijoOneToManyRequerido> testHijoOneToManies) {
         this.testHijoOneToManies = testHijoOneToManies;
+    }
+
+    @Override
+    public String toString() {
+        return "TestDtoOneToMany{" +
+                "codigoEPS='" + codigoEPS + '\'' +
+                ", fechaInicialPeriodoReportado=" + fechaInicialPeriodoReportado +
+                ", fechaFinalPeriodoReportado=" + fechaFinalPeriodoReportado +
+                ", numeroRegistroArchivo=" + numeroRegistroArchivo +
+                ", testHijoOneToManies=" + testHijoOneToManies +
+                '}';
     }
 }

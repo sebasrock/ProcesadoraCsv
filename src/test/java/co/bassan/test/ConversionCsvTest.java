@@ -29,6 +29,7 @@ public class ConversionCsvTest {
 
             // Entonces
             assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(0);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -49,6 +50,7 @@ public class ConversionCsvTest {
 
             // Entonces
             assertThat(resultadoCargue.getElementosCargados()).hasSize(80000).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(0);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -69,6 +71,7 @@ public class ConversionCsvTest {
 
             // Entonces
             assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("testHijoOneToOne").extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(0);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -89,6 +92,7 @@ public class ConversionCsvTest {
 
             // Entonces
             assertThat(resultadoCargue.getElementosCargados()).hasSize(80000).isInstanceOf(ArrayList.class).extracting("testHijoOneToOne").extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(0);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -187,6 +191,84 @@ public class ConversionCsvTest {
             Assert.fail(e.getMessage());
         }
 
+    }
+
+    @Test
+    public void probarCargaErrorCampoRequerido() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoErrorRequerido();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasicoRequerido> csv = new ConversorArchivos<TestDtoBasicoRequerido>();
+            ResultadoCargue<TestDtoBasicoRequerido> resultadoCargue = csv.ejecutar(TestDtoBasicoRequerido.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El valor del campo  es requerido");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo(null);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(3);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getCausa()).isEqualTo("El valor del campo  es requerido");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void probarCargaErrorCampoRequeridoMultipleEstructura() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoOneToManyErrorRequerido();
+
+            // Cuando
+            ConversorArchivos<TestDtoOneToManyRequerido> csv = new ConversorArchivos<TestDtoOneToManyRequerido>();
+            ResultadoCargue<TestDtoOneToManyRequerido> resultadoCargue = csv.ejecutar(TestDtoOneToManyRequerido.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El valor del campo  es requerido");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo(null);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(3);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getCausa()).isEqualTo("El valor del campo  es requerido");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+    private byte[] crearArchivoOneToManyErrorRequerido() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("1|EPS005|1890-02-27|2015-03-20|3\n");
+        stringBuilder.append("2|1|1969-05-08|6\n");
+        stringBuilder.append("2||1969-05-08|6\n");
+        stringBuilder.append("2|45|1969-05-08|6\n");
+        stringBuilder.append("1|EPS006|1890-02-27|2015-03-20|\n");
+        stringBuilder.append("2|1|1969-05-08|6\n");
+        stringBuilder.append("2||1969-05-08|6\n");
+        return stringBuilder.toString().getBytes();
+    }
+
+    private byte[] crearArchivoErrorRequerido() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("EPS005|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("|2000-03-27|2015-03-31|1\n");
+        return stringBuilder.toString().getBytes();
     }
 
     private byte[] crearArchivoOneToMany3NivelesExitosoGrande() {

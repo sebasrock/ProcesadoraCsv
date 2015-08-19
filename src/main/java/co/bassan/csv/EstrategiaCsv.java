@@ -2,12 +2,13 @@ package co.bassan.csv;
 
 import co.bassan.excepciones.CargueCsvExcepcion;
 import co.bassan.general.EstrategiaConversor;
-import co.bassan.general.LeerAnotacionesArchivo;
-import co.bassan.general.UtilProcesador;
+import co.bassan.general.util.LeerAnotacionesArchivo;
+import co.bassan.general.util.UtilProcesador;
 import co.bassan.general.model.ErrorCampo;
 import co.bassan.general.model.InfCampo;
 import co.bassan.general.model.InfoArchivo;
 import co.bassan.general.model.ResultadoCargue;
+import co.bassan.validaciones.core.EjecutorValidaciones;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -134,7 +135,7 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
     private void procesamientoEstructura(InfoArchivo infoArchivo, Class claseBase, List<T> listaResultado, String[] columns) {
         if (rowIterator.getLineTotal() == infoArchivo.getCantidadCampos()) {
 
-            listaResultado.add(convertirArrayObjeto(rowIterator.getLineTotal(), columns, infoArchivo, claseBase));
+            listaResultado.add(convertirArrayObjeto(rowIterator.getRowCount(), columns, infoArchivo, claseBase));
 
         } else {
             listaErrores.add(new ErrorCampo(rowIterator.getLineTotal(), 0, "El numero de columnas no es igual a lo parametrizado: Configurado (" + infoArchivo.getCantidadCampos() + "), Existen (" + rowIterator.getRowCount() + ")", null));
@@ -165,7 +166,8 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
     }
 
     private void ejecutarValidacionesCampo(List listaErrores, int lineCount, InfCampo infCampo) {
-
+        EjecutorValidaciones ejecutorValidaciones = new EjecutorValidaciones();
+        ejecutorValidaciones.ejecutarValidacionesParametrizadas(listaErrores,infCampo,lineCount);
     }
 
 

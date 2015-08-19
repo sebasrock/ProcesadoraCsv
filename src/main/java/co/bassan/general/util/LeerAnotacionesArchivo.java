@@ -1,4 +1,4 @@
-package co.bassan.general;
+package co.bassan.general.util;
 
 import co.bassan.anotaciones.*;
 import co.bassan.general.model.InfCampo;
@@ -144,8 +144,6 @@ public class LeerAnotacionesArchivo {
         }
         return privateFields;
     }
-
-
 
 
 }

@@ -11,9 +11,10 @@ import java.util.Date;
  * Created by sebas on 24/04/15.
  */
 @DatosArchivo(separador = "|", cantidadColumnas = 4)
-public class TestHijoOneToMany implements Serializable {
+public class TestHijoOneToManyRequerido implements Serializable {
 
     @DatosCampo(posicion = 1)
+    @ValidarCampo(requirido = true)
     private String codigo;
     @DatosCampo(posicion = 2)
     @ValidarCampo(formatoFecha = "yyyy-MM-dd")

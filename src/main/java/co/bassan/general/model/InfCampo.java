@@ -1,6 +1,6 @@
 package co.bassan.general.model;
 
-import co.bassan.general.ConversionPersonal;
+import co.bassan.general.util.ConversionPersonal;
 
 /**
  * Created by sebas on 13/08/15.
@@ -149,7 +149,7 @@ public class InfCampo {
                 ", palabraReservada='" + palabraReservada + '\'' +
                 ", esOneToOne=" + esOneToOne +
                 ", esOneToMany=" + esOneToMany +
-                ", validaciones=" + validaciones +
+                ", Validacion=" + validaciones +
                 '}';
     }
 }
