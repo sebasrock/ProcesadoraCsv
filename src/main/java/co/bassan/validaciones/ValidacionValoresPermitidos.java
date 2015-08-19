@@ -38,7 +38,7 @@ public class ValidacionValoresPermitidos implements Validacion {
     public boolean ejecutarValidacion(List<ErrorCampo> errores, InfCampo infCampo, int fila) {
         if (infCampo.getValidaciones()!=null && infCampo.getValidaciones().getListaLimitante() != null && infCampo.getValidaciones().getListaLimitante().length > 0) {
             if (!Arrays.asList(infCampo.getValidaciones().getListaLimitante()).contains(infCampo.getValor())) {
-                UtilProcesador.adicionarError(errores, fila, infCampo.getPosicion(), "El campo " + infCampo.getNombreCampoArchivo() + " , No tiene un valor permitido (" + infCampo.getValidaciones().getListaLimitante() + ")", infCampo.getValor());
+                UtilProcesador.adicionarError(errores, fila, infCampo.getPosicion(), "El campo " + infCampo.getNombreCampoArchivo() + " , No tiene un valor permitido (" + Arrays.toString(infCampo.getValidaciones().getListaLimitante()) + ")", infCampo.getValor());
                 return Boolean.TRUE;
             }
         }

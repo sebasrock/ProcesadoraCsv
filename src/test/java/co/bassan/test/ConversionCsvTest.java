@@ -234,22 +234,163 @@ public class ConversionCsvTest {
             ResultadoCargue<TestDtoOneToManyRequerido> resultadoCargue = csv.ejecutar(TestDtoOneToManyRequerido.class, archivo, TiposArchivo.CSV);
 
             // Entonces
-            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
-            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
-            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(2).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(3);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(3);
             assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El valor del campo  es requerido");
-            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(1);
             assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo(null);
-            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(3);
-            assertThat(resultadoCargue.getErroresEcontrados().get(1).getCausa()).isEqualTo("El valor del campo  es requerido");
-            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(0);
-            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo(null);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(5);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(4);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo(" ");
+            assertThat(resultadoCargue.getErroresEcontrados().get(2).getFila()).isEqualTo(7);
+            assertThat(resultadoCargue.getErroresEcontrados().get(2).getCausa()).isEqualTo("El valor del campo  es requerido");
+            assertThat(resultadoCargue.getErroresEcontrados().get(2).getLinea()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(2).getValor()).isEqualTo(null);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
 
     }
+
+
+    @Test
+    public void probarCargaErrorCampoLongitudMinimaMaxima() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoErrorLongitudMinimaMaxima();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasicoMaximaMinima> csv = new ConversorArchivos<TestDtoBasicoMaximaMinima>();
+            ResultadoCargue<TestDtoBasicoMaximaMinima> resultadoCargue = csv.ejecutar(TestDtoBasicoMaximaMinima.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("E");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El campo  , No tiene la longitud minima (2)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo("E");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getCausa()).isEqualTo("El campo  , Tiene la longitud maxima (10)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo("12345678901");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void probarCargaErrorCampoValoresPermitidos() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoErrorValoresPermitodos();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasicoValorPermitido> csv = new ConversorArchivos<TestDtoBasicoValorPermitido>();
+            ResultadoCargue<TestDtoBasicoValorPermitido> resultadoCargue = csv.ejecutar(TestDtoBasicoValorPermitido.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El campo  , No tiene un valor permitido ([SI, NO])");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo("EPS005");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void probarCargaErrorCampoExpresion() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoExpresion();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasicoExpresion> csv = new ConversorArchivos<TestDtoBasicoExpresion>();
+            ResultadoCargue<TestDtoBasicoExpresion> resultadoCargue = csv.ejecutar(TestDtoBasicoExpresion.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("NO");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El campo  , No tiene el formato adecuado (^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo("SI@SI,co.com");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(3);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getCausa()).isEqualTo("El campo  , No tiene el formato adecuado (^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo("NO");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void probarCargaErrorCampoFechaMaximaMinima() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoErrorFechaMaximaMinima();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasicoFechaMaximaMinima> csv = new ConversorArchivos<TestDtoBasicoFechaMaximaMinima>();
+            ResultadoCargue<TestDtoBasicoFechaMaximaMinima> resultadoCargue = csv.ejecutar(TestDtoBasicoFechaMaximaMinima.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("NO");
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El campo ,Tiene una fecha mayor a la permitida (2016-05-05)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo("2020-03-27");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getCausa()).isEqualTo("El campo ,Tiene una fecha menor a la permitida (1900-01-01)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getLinea()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(1).getValor()).isEqualTo("1845-03-27");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    private byte[] crearArchivoErrorFechaMaximaMinima() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("bassan@bassan.co|2020-03-27|2015-03-31|1\n");
+        stringBuilder.append("SI@SI,co.com|1845-03-27|2015-03-31|1\n");
+        stringBuilder.append("NO|2000-03-27|2015-03-31|1\n");
+        return stringBuilder.toString().getBytes();
+    }
+
+    private byte[] crearArchivoExpresion() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("bassan@bassan.co|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("SI@SI,co.com|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("NO|2000-03-27|2015-03-31|1\n");
+        return stringBuilder.toString().getBytes();
+    }
+
+    private byte[] crearArchivoErrorValoresPermitodos() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("EPS005|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("SI|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("NO|2000-03-27|2015-03-31|1\n");
+        return stringBuilder.toString().getBytes();
+    }
+
 
     private byte[] crearArchivoOneToManyErrorRequerido() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -391,5 +532,13 @@ public class ConversionCsvTest {
         return stringBuilder.toString().getBytes();
     }
 
+
+    private byte[] crearArchivoErrorLongitudMinimaMaxima() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("E|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("12345678901|2000-03-27|2015-03-31|1\n");
+        stringBuilder.append("546|2000-03-27|2015-03-31|1\n");
+        return stringBuilder.toString().getBytes();
+    }
 
 }

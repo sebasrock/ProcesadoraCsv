@@ -13,11 +13,11 @@ import java.lang.annotation.Target;
 public @interface ValidarCampo {
 
     /**
-     * exprecion regular que debe cumplir el campo
+     * expresion regular que debe cumplir el campo
      *
      * @return
      */
-    String exprecion() default "";
+    String expresion() default "";
 
     /**
      * Longitud maxima permitida para este campo

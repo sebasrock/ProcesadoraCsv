@@ -121,7 +121,7 @@ public class LeerAnotacionesArchivo {
 
         if (validarCampo != null) {
             infCampo.setValidaciones(new InfValidaciones());
-            infCampo.getValidaciones().setExprecion(validarCampo.exprecion());
+            infCampo.getValidaciones().setExprecion(validarCampo.expresion());
             infCampo.getValidaciones().setLongitudMaxima(validarCampo.longitudMaxima());
             infCampo.getValidaciones().setLongitudMinima(validarCampo.longitudMinima());
             infCampo.getValidaciones().setRequirido(validarCampo.requirido());

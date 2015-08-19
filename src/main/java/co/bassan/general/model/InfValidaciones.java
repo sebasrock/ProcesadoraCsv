@@ -7,7 +7,7 @@ public class InfValidaciones {
 
 
     /**
-     * exprecion regular que debe cumplir el campo
+     * expresion regular que debe cumplir el campo
      *
      * @return
      */
