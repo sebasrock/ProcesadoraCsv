@@ -6,7 +6,7 @@
 
     <groupId>co.bassan.csv</groupId>
     <artifactId>ProcesadorCsv</artifactId>
-    <version>1.0.0.4</version>
+    <version>1.5.0.0</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
