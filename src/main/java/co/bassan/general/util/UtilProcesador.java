@@ -2,11 +2,14 @@ package co.bassan.general.util;
 
 
 import co.bassan.general.model.ErrorCampo;
+import co.bassan.general.model.InfCampo;
 import co.bassan.general.model.InfoArchivo;
 import co.bassan.general.model.TypesEnum;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +20,34 @@ import java.util.StringTokenizer;
 public class UtilProcesador {
 
     public UtilProcesador() {
+    }
+
+    public static void imprimirCabecera(BufferedOutputStream bufferedOutput, List<InfCampo> infCampos,String separador) throws IOException {
+        StringBuilder cabecera = new StringBuilder();
+
+        for (InfCampo configuracionCampo : infCampos) {
+            if(configuracionCampo.getNombreCampoArchivo()!=null && !configuracionCampo.getNombreCampoArchivo().isEmpty()) {
+                cabecera.append(configuracionCampo.getNombreCampoArchivo());
+            }else {
+                cabecera.append(configuracionCampo.getNombreCampo());
+            }
+            cabecera.append(separador);
+        }
+
+        cabecera.replace(cabecera.length() - 1, cabecera.length(), "\n");
+        bufferedOutput.write(cabecera.toString().getBytes());
+    }
+
+    public static void imprimirCabecera(PrintWriter pw, List<InfCampo> infCampos, String separador) throws IOException {
+        StringBuilder cabecera = new StringBuilder();
+
+        for (InfCampo configuracionCampo : infCampos) {
+            cabecera.append(configuracionCampo.getNombreCampo());
+            cabecera.append(separador);
+        }
+
+        cabecera.replace(cabecera.length() - 1, cabecera.length(), "");
+        pw.println(cabecera.toString());
     }
 
     public static String[] separacionLinea(String line, String separador) {
@@ -99,4 +130,6 @@ public class UtilProcesador {
         ErrorCampo errorCampo = new ErrorCampo(fila, posicion, mensaje, valor);
         listaErrores.add(errorCampo);
     }
+
+
 }
