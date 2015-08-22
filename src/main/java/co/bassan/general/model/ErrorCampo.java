@@ -71,11 +71,10 @@ public class ErrorCampo {
 
     @Override
     public String toString() {
-        return "ErrorCampo{" +
-                "linea=" + linea +
+        return "Error en la estructura " +
+                " linea=" + linea +
                 ", fila=" + fila +
                 ", causa='" + causa + '\'' +
-                ", valor=" + valor +
-                '}';
+                ", valor=" + valor ;
     }
 }
