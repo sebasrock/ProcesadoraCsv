@@ -366,6 +366,57 @@ public class ConversionCsvTest {
             Assert.fail(e.getMessage());
         }
     }
+    @Test
+    public void probarCargaErrorNumeroCampos() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoBasicoExitoso();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasicoErrorNumeroCampos> csv = new ConversorArchivos<TestDtoBasicoErrorNumeroCampos>();
+            ResultadoCargue<TestDtoBasicoErrorNumeroCampos> resultadoCargue = csv.ejecutar(TestDtoBasicoErrorNumeroCampos.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(3);
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(3);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El numero de columnas no es igual a lo parametrizado: Configurado (5), Existen (4)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void probarCargaErrorNumeroCamposOneToMany() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoOneToManyExitoso();
+
+            // Cuando
+            ConversorArchivos<TestDtoOneToManyErrorNumeroCampos> csv = new ConversorArchivos<TestDtoOneToManyErrorNumeroCampos>();
+            ResultadoCargue<TestDtoOneToManyErrorNumeroCampos> resultadoCargue = csv.ejecutar(TestDtoOneToManyErrorNumeroCampos.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(2);
+            assertThat(resultadoCargue.getElementosCargados().get(0).getTestHijoOneToManies()).hasSize(3);
+            assertThat(resultadoCargue.getElementosCargados().get(1).getTestHijoOneToManies()).hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El numero de columnas no es igual a lo parametrizado: Configurado (4), Existen (5)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
 
     private byte[] crearArchivoErrorFechaMaximaMinima() {
         StringBuilder stringBuilder = new StringBuilder();

@@ -133,12 +133,17 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
     }
 
     private void procesamientoEstructura(InfoArchivo infoArchivo, Class claseBase, List<T> listaResultado, String[] columns) {
+        try {
         if (rowIterator.getLineTotal() == infoArchivo.getCantidadCampos()) {
 
             listaResultado.add(convertirArrayObjeto(rowIterator.getRowCount(), columns, infoArchivo, claseBase));
 
         } else {
-            listaErrores.add(new ErrorCampo(rowIterator.getLineTotal(), 0, "El numero de columnas no es igual a lo parametrizado: Configurado (" + infoArchivo.getCantidadCampos() + "), Existen (" + rowIterator.getRowCount() + ")", null));
+            listaResultado.add((T) claseBase.newInstance());
+            listaErrores.add(new ErrorCampo(rowIterator.getRowCount(), 0, "El numero de columnas no es igual a lo parametrizado: Configurado (" + infoArchivo.getCantidadCampos() + "), Existen (" + rowIterator.getLineTotal() + ")", null));
+        }
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new CargueCsvExcepcion("Error convirtiendo:", e);
         }
     }
 
