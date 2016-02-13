@@ -60,7 +60,6 @@ public class ConversionCsvTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-
     }
 
     @Test
