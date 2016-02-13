@@ -58,21 +58,26 @@ public class CSVRowIterator implements Iterator<String[]> {
     private void verificaCambioEstructura(String lineNueva) {
         String indiceNuevo = "";
         String indiceViejo = "";
-        if (validaCambioEstructura)
-            if (!lineNueva.isEmpty() && !lineBufferBefore.isEmpty()) {
-                indiceNuevo = lineNueva.substring(0, lineNueva.indexOf(separador));
-                indiceViejo = lineBufferBefore.substring(0, lineBufferBefore.indexOf(separador));
+        if (!lineNueva.isEmpty() && !lineBufferBefore.isEmpty()) {
+            int intIndiceNuevo = lineNueva.indexOf(separador);
+            if (intIndiceNuevo != -1) {
+                indiceNuevo = lineNueva.substring(0, intIndiceNuevo);
+            }
+            int intIndiceViejo = lineBufferBefore.indexOf(separador);
+            if (intIndiceViejo != -1) {
+                indiceViejo = lineBufferBefore.substring(0, intIndiceViejo);
+            }
 //            System.out.println("lineNueva = [" + lineNueva + "] , lineVieja = [" + lineBufferBefore + "]");
 //            System.out.println("indiceNuevo = [" + indiceNuevo + "] , indiceViejo = [" + indiceViejo + "]");
-                if (indiceNuevo.equals(indiceViejo))
-                    cambioEstructura = false;
-                else
-                    cambioEstructura = true;
-            } else {
+            if (indiceNuevo.equals(indiceViejo))
                 cambioEstructura = false;
-            }
-    }
+            else
+                cambioEstructura = true;
+        } else {
+            cambioEstructura = false;
+        }
 
+    }
 
 
     /**
