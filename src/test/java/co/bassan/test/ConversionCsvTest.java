@@ -418,6 +418,41 @@ public class ConversionCsvTest {
         }
     }
 
+    /**
+     * Prueba de bug reportado por miguel arcos , con estra estructura especifica
+     *
+     */
+    @Test
+    public void probarCargaErrorEstructuraBug1() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoErrorEstructuraBug1();
+
+            // Cuando
+            ConversorArchivos<TestBugIndex> csv = new ConversorArchivos<TestBugIndex>();
+            ResultadoCargue<TestBugIndex> resultadoCargue = csv.ejecutar(TestBugIndex.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El numero de columnas no es igual a lo parametrizado: Configurado (6), Existen (1)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+    private byte[] crearArchivoErrorEstructuraBug1() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("TIPO IDENTIFICACION,NUMERO IDENTIFICACION,PRIMER NOMBRE, SEGUNDO NOMBRE,FECHA NACIMIENTO,SEXO\n");
+        stringBuilder.append("TI,97011413378,GIRALDO,VALERIA,1997-01-14,F\n");
+        stringBuilder.append("XXXXXX\n");
+        return stringBuilder.toString().getBytes();
+    }
+
     private byte[] crearArchivoErrorFechaMaximaMinima() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("bassan@bassan.co|2020-03-27|2015-03-31|1\n");
