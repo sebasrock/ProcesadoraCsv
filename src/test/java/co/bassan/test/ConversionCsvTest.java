@@ -16,6 +16,32 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ConversionCsvTest {
 
+
+
+    @Test
+    public void probarCargaErrorEstructuraSinSeparador() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoBasicoErrorSeparador();
+
+            // Cuando
+            ConversorArchivos<TestDtoBasico> csv = new ConversorArchivos<TestDtoBasico>();
+            ResultadoCargue<TestDtoBasico> resultadoCargue = csv.ejecutar(TestDtoBasico.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(3);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El numero de columnas no es igual a lo parametrizado: Configurado (4), Existen (1)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getValor()).isEqualTo(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
     @Test
     public void probarCargaExitosaEstructuraBasica() {
         try {
@@ -34,7 +60,6 @@ public class ConversionCsvTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-
     }
 
     @Test
@@ -418,6 +443,41 @@ public class ConversionCsvTest {
         }
     }
 
+    /**
+     * Prueba de bug reportado por miguel arcos , con estra estructura especifica
+     *
+     */
+    @Test
+    public void probarCargaErrorEstructuraBug1() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoErrorEstructuraBug1();
+
+            // Cuando
+            ConversorArchivos<TestBugIndex> csv = new ConversorArchivos<TestBugIndex>();
+            ResultadoCargue<TestBugIndex> resultadoCargue = csv.ejecutar(TestBugIndex.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(1);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getFila()).isEqualTo(2);
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getCausa()).isEqualTo("El numero de columnas no es igual a lo parametrizado: Configurado (6), Existen (1)");
+            assertThat(resultadoCargue.getErroresEcontrados().get(0).getLinea()).isEqualTo(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+    private byte[] crearArchivoErrorEstructuraBug1() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("TIPO IDENTIFICACION,NUMERO IDENTIFICACION,PRIMER NOMBRE, SEGUNDO NOMBRE,FECHA NACIMIENTO,SEXO\n");
+        stringBuilder.append("TI,97011413378,GIRALDO,VALERIA,1997-01-14,F\n");
+        stringBuilder.append("XXXXXX\n");
+        return stringBuilder.toString().getBytes();
+    }
+
     private byte[] crearArchivoErrorFechaMaximaMinima() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("bassan@bassan.co|2020-03-27|2015-03-31|1\n");
@@ -572,6 +632,14 @@ public class ConversionCsvTest {
         stringBuilder.append("EPS005|2000-03-27|2015-03-31|1\n");
         stringBuilder.append("EPS005|2000-03-27|2015-03-31|1\n");
         stringBuilder.append("EPS005|2000-03-27|2015-03-31|1\n");
+        return stringBuilder.toString().getBytes();
+    }
+
+    private byte[] crearArchivoBasicoErrorSeparador() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("EPS005 2000-03-27 2015-03-31 1\n");
+        stringBuilder.append("EPS005 2000-03-27 2015-03-31 1\n");
+        stringBuilder.append("EPS005 2000-03-27 2015-03-31 1\n");
         return stringBuilder.toString().getBytes();
     }
 
