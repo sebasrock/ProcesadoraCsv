@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,10 +33,13 @@ public class ConversionObjetoCsvTest {
             ConversorObjetos<TestDtoBasicoEscritura> csv = new ConversorObjetos<TestDtoBasicoEscritura>();
             ByteArrayOutputStream resultadoCargue = csv.ejecutar(archivo, TiposArchivo.CSV);
 
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha = dt.format(new Date());
+
             // Entonces
             assertThat(resultadoCargue).isNotNull();
             assertThat(resultadoCargue.toString()).containsSequence("codigoEPS|fechaInicialPeriodoReportado|fechaFinalPeriodoReportado|numeroRegistroArchivo");
-            assertThat(resultadoCargue.toString()).containsSequence("QAZ!|2015-08-19|2015-08-19|10000");
+            assertThat(resultadoCargue.toString()).containsSequence("QAZ!|"+fecha+"|"+fecha+"|10000");
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
