@@ -161,11 +161,11 @@ The main reason is make easy our work
 
 
 * **@DatosArchivo** 
- *String nombre() default "";  ----> the name of output file
- *String separador() default ","; ----> the token in file to read
- *int cantidadColumnas(); ----> the number of columns in row that represents to Object
- *boolean saltarPrimeraLinea() default false; ----> if you want skip first line
- *boolean multiEstructura() default false;  ----> Flag for multi-structure for api
+ * String nombre() default "";  ----> the name of output file
+ * String separador() default ","; ----> the token in file to read
+ * int cantidadColumnas(); ----> the number of columns in row that represents to Object
+ * boolean saltarPrimeraLinea() default false; ----> if you want skip first line
+ * boolean multiEstructura() default false;  ----> Flag for multi-structure for api
 
 * **@DatosCampo** 
   *  boolean trim() default false; ----> Delete spaces in begin and end to word
@@ -179,14 +179,14 @@ The main reason is make easy our work
  * String palabraResevada(); ----> The chart represents new structure,
 
 * **@ValidarCampo**
-* String expresion() default ""; ----> Validate Regex 
-* int longitudMaxima() default 0;----> Number max length
-* int longitudMinima() default 0;----> Number min length
-* boolean requirido() default false;----> Obligatory data
-* String[] listaLimitante() default {};----> List of possible values to take
-* String formatoFecha() default "yyyy-MM-dd";----> Format date
-* String fechaMinima() default "";---->  minimum date 
-* String fechaMaxima() default ""; ----> maximum date
+ * String expresion() default ""; ----> Validate Regex 
+ * int longitudMaxima() default 0;----> Number max length
+ * int longitudMinima() default 0;----> Number min length
+ * boolean requirido() default false;----> Obligatory data
+ * String[] listaLimitante() default {};----> List of possible values to take
+ * String formatoFecha() default "yyyy-MM-dd";----> Format date
+ * String fechaMinima() default "";---->  minimum date 
+ * String fechaMaxima() default ""; ----> maximum date
 
 ## Tests
 
