@@ -167,25 +167,25 @@ The main reason is make easy our work
 ..*   boolean multiEstructura() default false;  ----> Flag for multi-structure for api
 
 * **@DatosCampo** 
-..*  boolean trim() default false; ----> Delete spaces in begin and end to word
-..*  String nombre() default ""; ----> Name column to output file
-..*  int posicion() default 0; ----> Number column in row, that represents  property in class
-..*  Class<? extends ConversionPersonal> convercionClass() default ConversionPersonal.class; ----> Custom conversion data
+..  boolean trim() default false; ----> Delete spaces in begin and end to word
+..  String nombre() default ""; ----> Name column to output file
+..  int posicion() default 0; ----> Number column in row, that represents  property in class
+..  Class<? extends ConversionPersonal> convercionClass() default ConversionPersonal.class; ----> Custom conversion data
 
 * **@OneToOne**
 
 * **@OneToMany**
-..*  String palabraResevada(); ----> The chart represents new structure,
+..  String palabraResevada(); ----> The chart represents new structure,
 
 * **@ValidarCampo**
-..*  String expresion() default ""; ----> Validate Regex 
-..*  int longitudMaxima() default 0;----> Number max length
-..*  int longitudMinima() default 0;----> Number min length
-..*   boolean requirido() default false;----> Obligatory data
-..*  String[] listaLimitante() default {};----> List of possible values to take
-..*   String formatoFecha() default "yyyy-MM-dd";----> Format date
-..*  String fechaMinima() default "";---->  minimum date 
-..*   String fechaMaxima() default ""; ----> maximum date
+..  String expresion() default ""; ----> Validate Regex 
+..  int longitudMaxima() default 0;----> Number max length
+..  int longitudMinima() default 0;----> Number min length
+..   boolean requirido() default false;----> Obligatory data
+..  String[] listaLimitante() default {};----> List of possible values to take
+..   String formatoFecha() default "yyyy-MM-dd";----> Format date
+..  String fechaMinima() default "";---->  minimum date 
+..   String fechaMaxima() default ""; ----> maximum date
 
 ## Tests
 
