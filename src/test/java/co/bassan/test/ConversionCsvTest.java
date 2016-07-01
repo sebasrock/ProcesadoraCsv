@@ -2,12 +2,19 @@ package co.bassan.test;
 
 import co.bassan.conversor.ConversorArchivos;
 import co.bassan.general.constantes.TiposArchivo;
+import co.bassan.general.model.ErrorCampo;
 import co.bassan.general.model.ResultadoCargue;
+import co.bassan.general.util.UtilManejoErrores;
 import co.bassan.procesadoraCsv.DTOTest.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,6 +23,66 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ConversionCsvTest {
 
+
+    @Test
+    public void probarGeneracionExitosaArchivoErroes() {
+        try {
+            // Dado
+
+            List<ErrorCampo> lista = crearListaErrores();
+
+            // Cuando
+            byte[] archivo = UtilManejoErrores.generarArchivoErrores(lista);
+
+            // Entonces
+            assertThat(archivo).isNotNull();
+
+            BufferedReader getReader = getBufferedReader(archivo);
+            List<String> listaErrores = new ArrayList<>();
+            while (getReader.ready()) {
+                listaErrores.add(getReader.readLine());
+            }
+            assertThat(listaErrores).hasSize(4);
+            assertThat(listaErrores.get(0)).isEqualTo("Error en la estructura  linea=1, fila=1, causa='error 1', valor=nulo");
+            assertThat(listaErrores.get(1)).isEqualTo("Error en la estructura  linea=1, fila=2, causa='error 2', valor=nulo");
+            assertThat(listaErrores.get(2)).isEqualTo("Error en la estructura  linea=1, fila=3, causa='error 3', valor=nulo");
+            assertThat(listaErrores.get(3)).isEqualTo("Error en la estructura  linea=1, fila=4, causa='error 4', valor=nulo");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
+
+    public BufferedReader getBufferedReader(byte[] archivo) {
+        InputStream is = new ByteArrayInputStream(archivo);
+        return new BufferedReader(new InputStreamReader(is));
+    }
+
+
+    @Test
+    public void probarCargaExitosaEstructuraOneToManySuperBigData() {
+        try {
+            // Dado
+
+            byte[] archivo = crearArchivoOneToManyExitosoSuperGrande();
+
+            // Cuando
+            ConversorArchivos<TestDtoOneToMany> csv = new ConversorArchivos<TestDtoOneToMany>();
+            ResultadoCargue<TestDtoOneToMany> resultadoCargue = csv.ejecutar(TestDtoOneToMany.class, archivo, TiposArchivo.CSV);
+
+            // Entonces
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(2).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getElementosCargados().get(0)).isInstanceOf(TestDtoOneToMany.class);
+            assertThat(resultadoCargue.getElementosCargados()).extracting("testHijoOneToManies").hasSize(2);
+            assertThat(resultadoCargue.getErroresEcontrados()).hasSize(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+    }
 
 
     @Test
@@ -391,6 +458,7 @@ public class ConversionCsvTest {
             Assert.fail(e.getMessage());
         }
     }
+
     @Test
     public void probarCargaErrorNumeroCampos() {
         try {
@@ -445,7 +513,6 @@ public class ConversionCsvTest {
 
     /**
      * Prueba de bug reportado por miguel arcos , con estra estructura especifica
-     *
      */
     @Test
     public void probarCargaErrorEstructuraBug1() {
@@ -468,6 +535,16 @@ public class ConversionCsvTest {
             Assert.fail(e.getMessage());
         }
 
+    }
+
+
+    private List<ErrorCampo> crearListaErrores() {
+        List<ErrorCampo> lista = new ArrayList<>(4);
+        lista.add(new ErrorCampo(1, 1, "error 1", "nulo"));
+        lista.add(new ErrorCampo(2, 1, "error 2", "nulo"));
+        lista.add(new ErrorCampo(3, 1, "error 3", "nulo"));
+        lista.add(new ErrorCampo(4, 1, "error 4", "nulo"));
+        return lista;
     }
 
     private byte[] crearArchivoErrorEstructuraBug1() {
@@ -528,11 +605,11 @@ public class ConversionCsvTest {
         stringBuilder.append("1|EPS005|1890-02-27|2015-03-20|3\n");
         stringBuilder.append("2|1|1969-05-08|6\n");
         for (int i = 0; i < 20000; i++) {
-            stringBuilder.append("3|"+i+"|1969-05-08\n");
+            stringBuilder.append("3|" + i + "|1969-05-08\n");
         }
         for (int i = 0; i < 10000; i++) {
-            stringBuilder.append("2|"+i+"|1969-05-08|6\n");
-            stringBuilder.append("3|"+i+"|1969-05-08\n");
+            stringBuilder.append("2|" + i + "|1969-05-08|6\n");
+            stringBuilder.append("3|" + i + "|1969-05-08\n");
         }
         stringBuilder.append("3|1|1969-05-08\n");
         stringBuilder.append("2|1|1969-05-08|6\n");
@@ -544,7 +621,7 @@ public class ConversionCsvTest {
         stringBuilder.append("3|1|1969-05-08\n");
         stringBuilder.append("3|1|1969-05-08\n");
         stringBuilder.append("3|1|2015-05-08\n");
-        for (int i = 0; i < 40000; i++){
+        for (int i = 0; i < 40000; i++) {
             stringBuilder.append("1|EPS005|1890-02-27|2015-03-20|3\n");
             stringBuilder.append("2|1|1969-05-08|6\n");
             stringBuilder.append("3|1|2015-05-08\n");
@@ -588,11 +665,26 @@ public class ConversionCsvTest {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("1|EPS005|1890-02-27|2015-03-20|3\n");
         for (int i = 0; i < 80000; i++) {
-            stringBuilder.append("2|"+i+"|1969-05-08|6\n");
+            stringBuilder.append("2|" + i + "|1969-05-08|6\n");
         }
         stringBuilder.append("1|EPS006|1890-02-27|2015-03-20|3\n");
         for (int i = 0; i < 10000; i++) {
-            stringBuilder.append("2|"+i+"|1969-05-08|6\n");
+            stringBuilder.append("2|" + i + "|1969-05-08|6\n");
+        }
+        return stringBuilder.toString().getBytes();
+
+    }
+
+    private byte[] crearArchivoOneToManyExitosoSuperGrande() {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("1|EPS005|1890-02-27|2015-03-20|3\n");
+        for (int i = 0; i < 1400000; i++) {
+            stringBuilder.append("2|" + i + "|1969-05-08|6\n");
+        }
+        stringBuilder.append("1|EPS006|1890-02-27|2015-03-20|3\n");
+        for (int i = 0; i < 10000; i++) {
+            stringBuilder.append("2|" + i + "|1969-05-08|6\n");
         }
         return stringBuilder.toString().getBytes();
 
