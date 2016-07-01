@@ -159,50 +159,34 @@ The main reason is make easy our work
 
 ## API Reference
 
-1. First ordered list item
-2. Another item
-⋅⋅* Unordered sub-list. 
-1. Actual numbers don't matter, just that it's a number
-⋅⋅1. Ordered sub-list
-4. And another item.
-
-⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
-
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
-⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
-⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
-
-* Unordered list can use asterisks
-- Or minuses
-+ Or pluses
 
 * **@DatosArchivo** 
- ..*String nombre() default "";  ----> the name of output file
- ..*String separador() default ","; ----> the token in file to read
- ..*int cantidadColumnas(); ----> the number of columns in row that represents to Object
- ..*boolean saltarPrimeraLinea() default false; ----> if you want skip first line
- ..*boolean multiEstructura() default false;  ----> Flag for multi-structure for api
+ *String nombre() default "";  ----> the name of output file
+ *String separador() default ","; ----> the token in file to read
+ *int cantidadColumnas(); ----> the number of columns in row that represents to Object
+ *boolean saltarPrimeraLinea() default false; ----> if you want skip first line
+ *boolean multiEstructura() default false;  ----> Flag for multi-structure for api
 
 * **@DatosCampo** 
-  ..  boolean trim() default false; ----> Delete spaces in begin and end to word
-  ..  String nombre() default ""; ----> Name column to output file
-  ..  int posicion() default 0; ----> Number column in row, that represents  property in class
-  ..  Class<? extends ConversionPersonal> convercionClass() default ConversionPersonal.class; ----> Custom conversion data
+  *  boolean trim() default false; ----> Delete spaces in begin and end to word
+  *  String nombre() default ""; ----> Name column to output file
+  *  int posicion() default 0; ----> Number column in row, that represents  property in class
+  *  Class<? extends ConversionPersonal> convercionClass() default ConversionPersonal.class; ----> Custom conversion data
 
 * **@OneToOne**
 
 * **@OneToMany**
-..  String palabraResevada(); ----> The chart represents new structure,
+ * String palabraResevada(); ----> The chart represents new structure,
 
 * **@ValidarCampo**
-⋅⋅* String expresion() default ""; ----> Validate Regex 
-⋅⋅* int longitudMaxima() default 0;----> Number max length
-⋅⋅* int longitudMinima() default 0;----> Number min length
-⋅⋅* boolean requirido() default false;----> Obligatory data
-⋅⋅* String[] listaLimitante() default {};----> List of possible values to take
-⋅⋅* String formatoFecha() default "yyyy-MM-dd";----> Format date
-⋅⋅* String fechaMinima() default "";---->  minimum date 
-⋅⋅* String fechaMaxima() default ""; ----> maximum date
+* String expresion() default ""; ----> Validate Regex 
+* int longitudMaxima() default 0;----> Number max length
+* int longitudMinima() default 0;----> Number min length
+* boolean requirido() default false;----> Obligatory data
+* String[] listaLimitante() default {};----> List of possible values to take
+* String formatoFecha() default "yyyy-MM-dd";----> Format date
+* String fechaMinima() default "";---->  minimum date 
+* String fechaMaxima() default ""; ----> maximum date
 
 ## Tests
 
