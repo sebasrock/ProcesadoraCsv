@@ -36,6 +36,58 @@ public class TestDtoBasico {
 }
 ```
 
+read file embeds an object in another
+
+```
+1|EPS005|2000-03-27|2015-03-31|1
+1|EPS005|2000-03-27|2015-03-31|1
+```
+
+```java
+@DatosArchivo(separador = "|", cantidadColumnas = 5)
+public class TestDtoOneToOne implements Serializable {
+
+    @DatosCampo(posicion = 0)
+    private int consecutivo;
+
+    @OneToOne
+    private TestHijoOneToOne testHijoOneToOne;
+
+    ......    
+}
+```
+```java
+@DatosArchivo(separador = "|", cantidadColumnas = 5)
+public class TestDtoOneToOne implements Serializable {
+
+    @DatosCampo(posicion = 0)
+    private int consecutivo;
+
+    @OneToOne
+    private TestHijoOneToOne testHijoOneToOne;
+
+    ......    
+}
+```
+
+```java
+@DatosArchivo(separador = "|", cantidadColumnas = 5 , multiEstructura = true)
+public class TestDtoOneToMany implements Serializable {
+
+    @DatosCampo(posicion = 1, trim = true)
+    private String codigoEPS;
+    @DatosCampo(posicion = 2, trim = true)
+    @ValidarCampo(formatoFecha = "yyyy-MM-dd")
+    private Date fechaInicialPeriodoReportado;
+    @DatosCampo(posicion = 3, trim = true)
+    @ValidarCampo(formatoFecha = "yyyy-MM-dd")
+    private Date fechaFinalPeriodoReportado;
+    @DatosCampo(posicion = 4, trim = true)
+    private int numeroRegistroArchivo;
+
+    @OneToMany(palabraResevada = "2")
+    private List<TestHijoOneToMany> testHijoOneToManies;
+```
 ## Motivation
 
 A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
