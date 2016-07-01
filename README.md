@@ -160,11 +160,11 @@ The main reason is make easy our work
 ## API Reference
 
 * **@DatosArchivo** 
-..*   String nombre() default "";  ----> the name of output file
-..*   String separador() default ","; ----> the token in file to read
-..*   int cantidadColumnas(); ----> the number of columns in row that represents to Object
-..*   boolean saltarPrimeraLinea() default false; ----> if you want skip first line
-..*   boolean multiEstructura() default false;  ----> Flag for multi-structure for api
+...String nombre() default "";  ----> the name of output file
+...String separador() default ","; ----> the token in file to read
+...int cantidadColumnas(); ----> the number of columns in row that represents to Object
+...boolean saltarPrimeraLinea() default false; ----> if you want skip first line
+...boolean multiEstructura() default false;  ----> Flag for multi-structure for api
 
 * **@DatosCampo** 
 ..  boolean trim() default false; ----> Delete spaces in begin and end to word
