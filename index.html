@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Procesadoracsv by sebasrock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Procesadoracsv</h1>
+      <h2 class="project-tagline">API for transformation the CSV files to java objects, validations of structure and formattin data</h2>
+      <a href="https://github.com/sebasrock/ProcesadoraCsv" class="btn">View on GitHub</a>
+      <a href="https://github.com/sebasrock/ProcesadoraCsv/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/sebasrock/ProcesadoraCsv/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="procesadoracsv" class="anchor" href="#procesadoracsv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ProcesadoraCsv</h1>
+
+<p>API for transformation the CSV files to java objects, validations of structure and formatting data</p>
+
+<h2>
+<a id="synopsis" class="anchor" href="#synopsis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Synopsis</h2>
+
+<p>It's solution for transform, validation and formatting data,that from CSV file , it's way more easy  with annotations @.</p>
+
+<p>ProcasadoraCsv can read  many structures in only file</p>
+
+<h2>
+<a id="code-example" class="anchor" href="#code-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Code Example</h2>
+
+<p>Call to power</p>
+
+<div class="highlight highlight-source-java"><pre> <span class="pl-k">ConversorArchivos&lt;<span class="pl-smi">TestBugIndex</span>&gt;</span> csv <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">ConversorArchivos&lt;<span class="pl-smi">TestBugIndex</span>&gt;</span>();
+<span class="pl-k">ResultadoCargue&lt;<span class="pl-smi">TestBugIndex</span>&gt;</span> resultadoCargue <span class="pl-k">=</span> csv<span class="pl-k">.</span>ejecutar(<span class="pl-smi">TestBugIndex</span><span class="pl-k">.</span>class, archivo, <span class="pl-smi">TiposArchivo</span><span class="pl-c1"><span class="pl-k">.</span>CSV</span>);</pre></div>
+
+<p>Read Basic structure </p>
+
+<pre><code>EPS005|2000-03-27|2015-03-31|1
+EPS005|2000-03-27|2015-03-31|1
+</code></pre>
+
+<div class="highlight highlight-source-java"><pre>
+@DatosArchivo(cantidadColumnas <span class="pl-k">=</span> <span class="pl-c1">4</span>, separador <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>|<span class="pl-pds">"</span></span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TestDtoBasico</span> {
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">private</span> <span class="pl-smi">String</span> codigoEPS;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaInicialPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaFinalPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">3</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">private</span> <span class="pl-k">int</span> numeroRegistroArchivo;
+    <span class="pl-c1">.......</span>
+
+}</pre></div>
+
+<p>Read file embeds an object in another</p>
+
+<pre><code>1|EPS005|2000-03-27|2015-03-31|1
+1|EPS005|2000-03-27|2015-03-31|1
+</code></pre>
+
+<div class="highlight highlight-source-java"><pre>@DatosArchivo(separador <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>|<span class="pl-pds">"</span></span>, cantidadColumnas <span class="pl-k">=</span> <span class="pl-c1">5</span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TestDtoOneToOne</span> <span class="pl-k">implements</span> <span class="pl-e">Serializable</span> {
+
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>)
+    <span class="pl-k">private</span> <span class="pl-k">int</span> consecutivo;
+
+    <span class="pl-k">@OneToOne</span>
+    <span class="pl-k">private</span> <span class="pl-smi">TestHijoOneToOne</span> testHijoOneToOne;
+
+    <span class="pl-c1">......</span>    
+}</pre></div>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TestHijoOneToOne</span> <span class="pl-k">implements</span> <span class="pl-e">Serializable</span> {
+
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">private</span> <span class="pl-smi">String</span> codigoEPS;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">@ValidarCampo</span>( <span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaInicialPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">3</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaFinalPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">4</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">private</span> <span class="pl-k">int</span> numeroRegistroArchivo;
+
+    <span class="pl-c1">......</span>    
+}</pre></div>
+
+<p>Read many structures</p>
+
+<pre><code>1|EPS005|1890-02-27|2015-03-20|3
+2|1|1969-05-08|6
+2||1969-05-08|6
+2|45|1969-05-08|6
+1|EPS006|1890-02-27|2015-03-20|2
+2|1|1969-05-08|6
+2||1969-05-08|6
+</code></pre>
+
+<div class="highlight highlight-source-java"><pre>@DatosArchivo(separador <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>|<span class="pl-pds">"</span></span>, cantidadColumnas <span class="pl-k">=</span> <span class="pl-c1">5</span> , multiEstructura <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TestDtoOneToMany</span> <span class="pl-k">implements</span> <span class="pl-e">Serializable</span> {
+
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">private</span> <span class="pl-smi">String</span> codigoEPS;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaInicialPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">3</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaFinalPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">4</span>, <span class="pl-c1">trim</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">private</span> <span class="pl-k">int</span> numeroRegistroArchivo;
+
+    <span class="pl-k">@OneToMany</span>(<span class="pl-c1">palabraResevada</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-k">List&lt;<span class="pl-smi">TestHijoOneToMany</span>&gt;</span> testHijoOneToManies;</pre></div>
+
+<div class="highlight highlight-source-java"><pre>@DatosArchivo(separador <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>|<span class="pl-pds">"</span></span>, cantidadColumnas <span class="pl-k">=</span> <span class="pl-c1">4</span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TestHijoOneToMany</span> <span class="pl-k">implements</span> <span class="pl-e">Serializable</span> {
+
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>)
+    <span class="pl-k">private</span> <span class="pl-smi">String</span> codigo;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fecha;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">3</span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Long</span> numeroLong;</pre></div>
+
+<p>Write file csv from java object</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">List&lt;<span class="pl-smi">TestDtoBasicoEscritura</span>&gt;</span> archivo <span class="pl-k">=</span> <span class="pl-c1">....</span>
+<span class="pl-k">ConversorObjetos&lt;<span class="pl-smi">TestDtoBasicoEscritura</span>&gt;</span> csv <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">ConversorObjetos&lt;<span class="pl-smi">TestDtoBasicoEscritura</span>&gt;</span>();
+<span class="pl-smi">ByteArrayOutputStream</span> resultadoCargue <span class="pl-k">=</span> csv<span class="pl-k">.</span>ejecutar(archivo, <span class="pl-smi">TiposArchivo</span><span class="pl-c1"><span class="pl-k">.</span>CSV</span>);</pre></div>
+
+<div class="highlight highlight-source-java"><pre>@DatosArchivo(cantidadColumnas <span class="pl-k">=</span> <span class="pl-c1">4</span>, separador <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>|<span class="pl-pds">"</span></span>,nombre <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>TESTs<span class="pl-pds">"</span></span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TestDtoBasicoEscritura</span> {
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>, <span class="pl-c1">nombre</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>COODIGO<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">String</span> codigoEPS;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>, <span class="pl-c1">nombre</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>FECHA INICIAL<span class="pl-pds">"</span></span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaInicialPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>, <span class="pl-c1">nombre</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>FECHA FINAL<span class="pl-pds">"</span></span>)
+    <span class="pl-k">@ValidarCampo</span>(<span class="pl-c1">formatoFecha</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-smi">Date</span> fechaFinalPeriodoReportado;
+    <span class="pl-k">@DatosCampo</span>(<span class="pl-c1">posicion</span> <span class="pl-k">=</span> <span class="pl-c1">3</span>, <span class="pl-c1">nombre</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>NUMERO<span class="pl-pds">"</span></span>)
+    <span class="pl-k">private</span> <span class="pl-k">int</span> numeroRegistroArchivo;</pre></div>
+
+<p><strong><em>for more examples see the unit test</em></strong></p>
+
+<h2>
+<a id="motivation" class="anchor" href="#motivation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Motivation</h2>
+
+<p>The main reason is make easy our work</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>Download proyect and run <strong>maven install</strong> </li>
+<li>Put Jar in your repository</li>
+<li>Add dependency to proyect</li>
+<li>To work</li>
+</ol>
+
+<h2>
+<a id="api-reference" class="anchor" href="#api-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Reference</h2>
+
+<ul>
+<li>
+<p><strong>@DatosArchivo</strong> </p>
+
+<ul>
+<li>String nombre() default "";  ----&gt; the name of output file</li>
+<li>String separador() default ","; ----&gt; the token in file to read</li>
+<li>int cantidadColumnas(); ----&gt; the number of columns in row that represents to Object</li>
+<li>boolean saltarPrimeraLinea() default false; ----&gt; if you want skip first line</li>
+<li>boolean multiEstructura() default false;  ----&gt; Flag for multi-structure for api</li>
+</ul>
+</li>
+<li>
+<p><strong>@DatosCampo</strong> </p>
+
+<ul>
+<li> boolean trim() default false; ----&gt; Delete spaces in begin and end to word</li>
+<li> String nombre() default ""; ----&gt; Name column to output file</li>
+<li> int posicion() default 0; ----&gt; Number column in row, that represents  property in class</li>
+<li> Class&lt;? extends ConversionPersonal&gt; convercionClass() default ConversionPersonal.class; ----&gt; Custom conversion data</li>
+</ul>
+</li>
+<li><p><strong><a href="https://github.com/OneToOne" class="user-mention">@OneToOne</a></strong></p></li>
+<li>
+<p><strong><a href="https://github.com/OneToMany" class="user-mention">@OneToMany</a></strong></p>
+
+<ul>
+<li>String palabraResevada(); ----&gt; The chart represents new structure,</li>
+</ul>
+</li>
+<li>
+<p><strong>@ValidarCampo</strong></p>
+
+<ul>
+<li>String expresion() default ""; ----&gt; Validate Regex </li>
+<li>int longitudMaxima() default 0;----&gt; Number max length</li>
+<li>int longitudMinima() default 0;----&gt; Number min length</li>
+<li>boolean requirido() default false;----&gt; Obligatory data</li>
+<li>String[] listaLimitante() default {};----&gt; List of possible values to take</li>
+<li>String formatoFecha() default "yyyy-MM-dd";----&gt; Format date</li>
+<li>String fechaMinima() default "";----&gt;  minimum date </li>
+<li>String fechaMaxima() default ""; ----&gt; maximum date</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="tests" class="anchor" href="#tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tests</h2>
+
+<p><a href="https://github.com/sebasrock/ProcesadoraCsv/tree/develop/src/test/java/co/bassan/test">See unite test </a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>A short snippet describing the license (MIT, Apache, etc.)</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/sebasrock/ProcesadoraCsv">Procesadoracsv</a> is maintained by <a href="https://github.com/sebasrock">sebasrock</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
