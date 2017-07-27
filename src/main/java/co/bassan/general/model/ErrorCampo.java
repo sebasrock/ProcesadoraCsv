@@ -5,13 +5,13 @@ package co.bassan.general.model;
  */
 public class ErrorCampo {
 
-    private int linea;
+    private int columna;
     private int fila;
     private String causa;
     private Object valor;
 
-    public ErrorCampo(int fila, int linea, String causa, Object valor) {
-        this.linea = linea;
+    public ErrorCampo(int fila, int columna, String causa, Object valor) {
+        this.columna = columna;
         this.fila = fila;
         this.causa = causa;
         this.valor = valor;
@@ -27,22 +27,22 @@ public class ErrorCampo {
         this.causa = causa;
         this.valor = valor;
         this.fila = fila;
-        this.linea = linea;
+        this.columna = linea;
     }
 
     public ErrorCampo(String causa, String valor, int fila, int linea) {
-        this.linea = linea;
+        this.columna = linea;
         this.fila = fila;
         this.causa = causa;
         this.valor = valor;
     }
 
     public int getLinea() {
-        return linea;
+        return columna;
     }
 
     public void setLinea(int linea) {
-        this.linea = linea;
+        this.columna = linea;
     }
 
     public int getFila() {
@@ -71,10 +71,10 @@ public class ErrorCampo {
 
     @Override
     public String toString() {
-        return "Error en la estructura " +
-                " linea=" + linea +
-                ", fila=" + fila +
-                ", causa='" + causa + '\'' +
-                ", valor=" + valor ;
+        return "Error en la estructura del registro " +
+                " Columna =" + columna +
+                ", Fila =" + fila +
+                ", Causa ='" + causa + '\'' +
+                ", Valor campo =" + valor ;
     }
 }
