@@ -71,10 +71,10 @@ public class ErrorCampo {
 
     @Override
     public String toString() {
-        return "Error en la estructura del registro " +
-                " Columna =" + columna +
-                ", Fila =" + fila +
-                ", Causa ='" + causa + '\'' +
-                ", Valor campo =" + valor ;
+        return "Error en la estructura " +
+                " Columna = " + columna +
+                ", Fila = " + fila +
+                ", Causa =' " + causa + '\'' +
+                ", Valor campo = " + valor ;
     }
 }

@@ -43,10 +43,10 @@ public class ConversionCsvTest {
                 listaErrores.add(getReader.readLine());
             }
             assertThat(listaErrores).hasSize(4);
-            assertThat(listaErrores.get(0)).isEqualTo("Error en la estructura  linea=1, fila=1, causa='error 1', valor=nulo");
-            assertThat(listaErrores.get(1)).isEqualTo("Error en la estructura  linea=1, fila=2, causa='error 2', valor=nulo");
-            assertThat(listaErrores.get(2)).isEqualTo("Error en la estructura  linea=1, fila=3, causa='error 3', valor=nulo");
-            assertThat(listaErrores.get(3)).isEqualTo("Error en la estructura  linea=1, fila=4, causa='error 4', valor=nulo");
+            assertThat(listaErrores.get(0)).isEqualTo("Error en la estructura  Columna = 1, Fila = 1, Causa =' error 1', Valor campo = nulo");
+            assertThat(listaErrores.get(1)).isEqualTo("Error en la estructura  Columna = 1, Fila = 2, Causa =' error 2', Valor campo = nulo");
+            assertThat(listaErrores.get(2)).isEqualTo("Error en la estructura  Columna = 1, Fila = 3, Causa =' error 3', Valor campo = nulo");
+            assertThat(listaErrores.get(3)).isEqualTo("Error en la estructura  Columna = 1, Fila = 4, Causa =' error 4', Valor campo = nulo");
 
         } catch (Exception e) {
             e.printStackTrace();
