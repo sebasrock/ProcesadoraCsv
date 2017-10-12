@@ -5,8 +5,10 @@ import co.bassan.general.model.InfoArchivo;
 import co.bassan.general.model.ResultadoCargue;
 import co.bassan.excepciones.CargueCsvExcepcion;
 import co.bassan.general.util.LeerAnotacionesArchivo;
+import co.bassan.general.util.UnicodeBOMInputStream;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -15,6 +17,7 @@ import java.util.List;
 public abstract class EstrategiaConversor<T> {
 
     protected List<ErrorCampo> listaErrores;
+    final static int BUFFER_SIZE = 8192;
 
     public abstract ResultadoCargue<T> ejecutar(Class<T> claseBase, byte[] archivo) throws Exception;
 
@@ -23,9 +26,12 @@ public abstract class EstrategiaConversor<T> {
         return anotacionesArchivo.obtenerInfoArchivo();
     }
 
-    public BufferedReader getBufferedReader(byte[] archivo) {
+    public BufferedReader getBufferedReader(byte[] archivo) throws IOException {
+
         InputStream is = new ByteArrayInputStream(archivo);
-        return new BufferedReader(new InputStreamReader(is));
+        UnicodeBOMInputStream ubis = new UnicodeBOMInputStream(is);
+        ubis.skipBOM();
+        return new BufferedReader(new InputStreamReader(ubis, StandardCharsets.UTF_8),BUFFER_SIZE);
     }
 
     public void close(BufferedReader argReader) throws CargueCsvExcepcion {
