@@ -24,19 +24,24 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
 
     private CSVRowIterator rowIterator;
 
+    private ResultadoCargue resultado ;
+
+    public EstrategiaCsv() {
+        this.resultado = new ResultadoCargue();
+    }
+
     @Override
     public ResultadoCargue ejecutar(Class claseBase, byte[] archivo) throws Exception {
 
-        ResultadoCargue resultado = new ResultadoCargue();
 
         // Leer anotaciones de la clase
         InfoArchivo infoArchivo = getInfoArchivo(claseBase);
-        listaErrores = new ArrayList();
+
         //Conversion del archivo a BufferedReader
         BufferedReader reader = getBufferedReader(archivo);
 
         resultado.setElementosCargados(procesarArchivoCsv(infoArchivo, reader, claseBase));
-        resultado.setErroresEcontrados(listaErrores);
+
 
         close(reader);
         return resultado;
@@ -140,7 +145,7 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
 
         } else {
             listaResultado.add((T) claseBase.newInstance());
-            listaErrores.add(new ErrorCampo(rowIterator.getRowCount(), 0, "El numero de columnas no es igual a lo parametrizado: Configurado (" + infoArchivo.getCantidadCampos() + "), Existen (" + rowIterator.getLineTotal() + ")", null));
+            resultado.getErroresEcontrados().add(new ErrorCampo(rowIterator.getRowCount(), 0, "El numero de columnas no es igual a lo parametrizado: Configurado (" + infoArchivo.getCantidadCampos() + "), Existen (" + rowIterator.getLineTotal() + ")", null));
         }
         } catch (InstantiationException | IllegalAccessException e) {
             throw new CargueCsvExcepcion("Error convirtiendo:", e);
@@ -157,10 +162,10 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
                         llenarObjetoOneToOne(columns, objeto, infCampo, lineCount);
                     } else if (!infCampo.isEsOneToMany()) {
                         llenarObjetoFromArray(columns, objeto, infCampo);
-                        ejecutarValidacionesCampo(listaErrores,lineCount,infCampo);
+                        ejecutarValidacionesCampo(resultado.getErroresEcontrados(),lineCount,infCampo);
                     }
                 } catch (Exception e) {
-                    UtilProcesador.adicionarError(listaErrores, lineCount, e, infCampo.getPosicion(), infCampo.getValor());
+                    UtilProcesador.adicionarError(resultado.getErroresEcontrados(), lineCount, e, infCampo.getPosicion(), infCampo.getValor());
                 }
 //                System.out.println(objeto.toString());
             }

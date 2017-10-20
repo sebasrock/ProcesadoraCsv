@@ -26,7 +26,7 @@ public class CSVRowIterator implements Iterator<String[]> {
      * Constructor.
      */
     public CSVRowIterator(BufferedReader reader, String separador, boolean validaCambioEstructura) {
-        lineBuffer = new ArrayList<String>();
+        lineBuffer = new ArrayList<>();
         this.reader = reader;
         this.rowCount = 0;
         this.lineTotal = 0;
@@ -191,12 +191,5 @@ public class CSVRowIterator implements Iterator<String[]> {
         return getRowCount();
     }
 
-    protected static void debug(int idx, String o[]) {
-        System.out.print(idx + ":");
-        for (int i = 0; i < o.length; i++) {
-            System.out.print(" [" + o[i] + "]");
-        }
-        System.out.println();
-    }
 }
 

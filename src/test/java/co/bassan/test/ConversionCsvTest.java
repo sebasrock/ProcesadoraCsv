@@ -137,11 +137,11 @@ public class ConversionCsvTest {
             byte[] archivo = crearArchivoBasicoExitosoGigante();
 
             // Cuando
-            ConversorArchivos<TestDtoBasico> csv = new ConversorArchivos<TestDtoBasico>();
+            ConversorArchivos<TestDtoBasico> csv = new ConversorArchivos<>();
             ResultadoCargue<TestDtoBasico> resultadoCargue = csv.ejecutar(TestDtoBasico.class, archivo, TiposArchivo.CSV);
 
             // Entonces
-            assertThat(resultadoCargue.getElementosCargados()).hasSize(80000).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
+            assertThat(resultadoCargue.getElementosCargados()).hasSize(200000).isInstanceOf(ArrayList.class).extracting("codigoEPS").contains("EPS005");
             assertThat(resultadoCargue.getErroresEcontrados()).hasSize(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,7 +158,7 @@ public class ConversionCsvTest {
             byte[] archivo = crearArchivoOneToOneExitoso();
 
             // Cuando
-            ConversorArchivos<TestDtoOneToOne> csv = new ConversorArchivos<TestDtoOneToOne>();
+            ConversorArchivos<TestDtoOneToOne> csv = new ConversorArchivos<>();
             ResultadoCargue<TestDtoOneToOne> resultadoCargue = csv.ejecutar(TestDtoOneToOne.class, archivo, TiposArchivo.CSV);
 
             // Entonces
@@ -737,7 +737,7 @@ public class ConversionCsvTest {
 
     private byte[] crearArchivoBasicoExitosoGigante() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 80000; i++) {
+        for (int i = 0; i < 200000; i++) {
             stringBuilder.append("EPS005|2000-03-27|2015-03-31|" + i + "\n");
         }
         return stringBuilder.toString().getBytes();

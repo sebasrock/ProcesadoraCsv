@@ -16,7 +16,6 @@ import java.util.List;
  */
 public abstract class EstrategiaConversor<T> {
 
-    protected List<ErrorCampo> listaErrores;
     final static int BUFFER_SIZE = 8192;
 
     public abstract ResultadoCargue<T> ejecutar(Class<T> claseBase, byte[] archivo) throws Exception;
@@ -27,7 +26,6 @@ public abstract class EstrategiaConversor<T> {
     }
 
     public BufferedReader getBufferedReader(byte[] archivo) throws IOException {
-
         InputStream is = new ByteArrayInputStream(archivo);
         UnicodeBOMInputStream ubis = new UnicodeBOMInputStream(is);
         ubis.skipBOM();
