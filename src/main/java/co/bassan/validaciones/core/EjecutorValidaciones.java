@@ -9,11 +9,23 @@ import java.util.List;
 /**
  * Created by sebas on 18/08/15.
  */
-public  class EjecutorValidaciones {
+public  class EjecutorValidaciones<T> {
 
 
-    public void ejecutarValidacionesParametrizadas(List<ErrorCampo> listaErrores,InfCampo infCampo, int lineaEjecutada)
-    {
+    private static EjecutorValidaciones intancia;
+
+
+
+    public static EjecutorValidaciones obtenerInstancia(){
+        if(intancia!=null){
+            return intancia;
+        }else {
+            return new EjecutorValidaciones();
+        }
+    }
+
+
+    public void ejecutarValidacionesParametrizadas(List<ErrorCampo> listaErrores, InfCampo infCampo, int lineaEjecutada) throws Exception {
 
         ValidacionRequerido.obtenerInstancia().ejecutarValidacion(listaErrores,infCampo,lineaEjecutada);
         ValidacionLongitudMinima.obtenerInstancia().ejecutarValidacion(listaErrores,infCampo,lineaEjecutada);
@@ -22,6 +34,5 @@ public  class EjecutorValidaciones {
         ValidacionValoresPermitidos.obtenerInstancia().ejecutarValidacion(listaErrores,infCampo,lineaEjecutada);
         ValidacionFechaMinima.obtenerInstancia().ejecutarValidacion(listaErrores,infCampo,lineaEjecutada);
         ValidacionFechaMaxima.obtenerInstancia().ejecutarValidacion(listaErrores,infCampo,lineaEjecutada);
-
     }
 }

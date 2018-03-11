@@ -175,9 +175,8 @@ public class EstrategiaCsv<T> extends EstrategiaConversor {
         }
     }
 
-    private void ejecutarValidacionesCampo(List listaErrores, int lineCount, InfCampo infCampo) {
-        EjecutorValidaciones ejecutorValidaciones = new EjecutorValidaciones();
-        ejecutorValidaciones.ejecutarValidacionesParametrizadas(listaErrores,infCampo,lineCount);
+    private void ejecutarValidacionesCampo(List listaErrores, int lineCount, InfCampo infCampo) throws Exception{
+        EjecutorValidaciones.obtenerInstancia().ejecutarValidacionesParametrizadas(listaErrores,infCampo,lineCount);
     }
 
 
